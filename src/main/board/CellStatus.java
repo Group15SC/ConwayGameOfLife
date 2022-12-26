@@ -3,4 +3,5 @@ public enum CellStatus {
     BLUE,
     RED,
     BLANK;
+
 }

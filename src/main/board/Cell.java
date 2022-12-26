@@ -1,7 +1,7 @@
 package main.board;
 public class Cell {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
     private CellStatus cellstatus;
     public Cell(int x, int y, CellStatus cellstatus){
         this.x = x;
@@ -14,15 +14,15 @@ public class Cell {
     }
 
     public int getX() {
-        return x;
+        return this.x;
     }
 
     public int getY() {
-        return y;
+        return this.y;
     }
 
     public CellStatus getCellStatus() {
-        return cellstatus;
+        return this.cellstatus;
     }
 
 }
