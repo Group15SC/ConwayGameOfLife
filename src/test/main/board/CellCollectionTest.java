@@ -4,10 +4,11 @@ import main.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class CellCollectionTest {
 
     Grid testGrid = new Grid(5,5);
-    Player testPlayer = new Player("testPlayer", "R");
     @BeforeEach
     void setUp() {
         testGrid.getCell(0,0).setCellStatus(CellStatus.RED);
@@ -18,17 +19,7 @@ class CellCollectionTest {
     @Test
     void getCellCollection() {
         CellCollection testCollection = new CellCollection(testGrid,CellStatus.RED);
+        assertEquals(3, testCollection.getCellNumber());
     }
 
-    @Test
-    void getCellNumber() {
-    }
-
-    @Test
-    void addCell() {
-    }
-
-    @Test
-    void iterator() {
-    }
 }

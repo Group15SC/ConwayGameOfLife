@@ -11,7 +11,7 @@ public class Generation {
     /** update the grid after the generation,
      *  checks whether a user os left with no alive cells*/
 
-    private Grid grid;
+    private final Grid grid;
     private static int numberOfGen = 0; // class variable, keep track of the number of generations
 
     public static int getNumberOfGen() {
