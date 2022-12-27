@@ -92,4 +92,32 @@ class GridTest {
         assertNull(testGrid.getMajorityColor(testNeighbour));
     }
 
+    @Test
+    void testIterX(){
+        ArrayList<Integer> expected = new ArrayList<>();
+        for(int i=0; i<25; i++){
+            expected.add(i % 5); // repeat 0-4: 0,1,2,3,4,0,1,2,3,4,...
+        }
+        ArrayList<Integer> actual = new ArrayList<>();
+        for(Cell cell:testGrid){
+            actual.add(cell.getX());
+        }
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testIterStatus(){
+        ArrayList<CellStatus> expected = new ArrayList<>();
+        expected.add(CellStatus.RED);
+        for(int i=1; i<25; i++){
+            expected.add(CellStatus.BLANK);
+        }
+        expected.set(5, CellStatus.BLUE);
+        ArrayList<CellStatus> actual = new ArrayList<>();
+        for(Cell cell: testGrid){
+            actual.add(cell.getCellStatus());
+        }
+        assertEquals(expected, actual);
+    }
+
 }

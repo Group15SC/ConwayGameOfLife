@@ -3,9 +3,10 @@ package main.board;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
-public class Grid{
+public class Grid implements Iterable<Cell>{
     final int width;
     final int height;
     Cell [][] grid;
@@ -19,9 +20,9 @@ public class Grid{
         return grid[y][x];
     }
 
-    public Cell[][] getGrid() {
-        return grid;
-    }
+//    public Cell[][] getGrid() {
+//        return grid;
+//    }
 
     public Cell[][] fillGrid(int width, int height){
         grid = new Cell[height][width];
@@ -119,6 +120,35 @@ public class Grid{
             return CellStatus.BLUE;
         }
         return null;
+    }
+
+    @Override
+    public Iterator<Cell> iterator(){
+        return new Iterator<Cell>() {
+
+            private int currentRow = 0;
+            private int currentColumn = 0;
+
+            @Override
+            public boolean hasNext() {
+                if(currentRow + 1 == grid.length){
+                    return currentColumn < grid[currentRow].length;
+                }
+                return currentRow < grid.length;
+            }
+
+            @Override
+            public Cell next() {
+                if (currentColumn == grid[currentRow].length){
+                    currentColumn = 0;
+                    currentRow ++;
+                }
+                if(currentRow == grid.length - 1 && currentColumn == grid[currentRow].length){
+                    throw new NoSuchElementException();
+                }
+                return grid[currentRow][currentColumn++];
+            }
+        };
     }
 
 }

@@ -15,12 +15,9 @@ public class CellCollection implements Iterable<Cell>{
     }
     public ArrayList<Cell> getCellCollection(Grid grid, CellStatus color){
         ArrayList<Cell> collection = new ArrayList<>();
-        for(int y=0; y < grid.getHeight(); y++){
-            for(int x=0; x<grid.getWidth(); x++){
-                Cell cell = grid.getCell(x, y);
-                if(Objects.equals(cell.getCellStatus(), color)){
-                    collection.add(cell);
-                }
+        for(Cell cell: grid){
+            if(Objects.equals(cell.getCellStatus(), color)){
+                collection.add(cell);
             }
         }
         return collection;
@@ -30,9 +27,9 @@ public class CellCollection implements Iterable<Cell>{
         return this.collection.size();
     }
 
-    public void addCell(Cell cell){
-        collection.add(cell);
-    }
+//    public void addCell(Cell cell){
+//        collection.add(cell);
+//    }
 
     @Override
     public Iterator<Cell> iterator() {

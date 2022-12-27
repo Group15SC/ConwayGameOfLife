@@ -12,9 +12,9 @@ public class Generation {
      *  checks whether a user os left with no alive cells*/
 
     private final Grid grid;
-    private int numberOfGen = 0; // class variable, keep track of the number of generations
+    private static int numberOfGen = 0; // class variable, keep track of the number of generations
 
-    public int getNumberOfGen() {
+    public static int getNumberOfGen() {
         return numberOfGen;
     }
 
@@ -27,22 +27,19 @@ public class Generation {
         ArrayList<Cell> bringToRed = new ArrayList<>();
         ArrayList<Cell> bringToBlue = new ArrayList<>();
         ArrayList<Cell> overpopulation = new ArrayList<>();
-        for(int y = 0; y < grid.getHeight(); y++){
-            for(int x = 0; x < grid.getWidth(); x++){
-                Cell center = grid.getCell(x,y);
-                ArrayList<Cell> neighbour = grid.findNeighbour(center);
-                if(center.getCellStatus()==CellStatus.BLANK && bringToLife(center, neighbour)){
-                    if(grid.getMajorityColor(neighbour)==CellStatus.RED){
-                        bringToRed.add(center);
-                    } else if (grid.getMajorityColor(neighbour) == CellStatus.BLUE) {
-                        bringToBlue.add(center);
-                    }
-                } else if (overpopulation(center, neighbour)){
-                    overpopulation.add(center);
+        for(Cell center: grid){
+            ArrayList<Cell> neighbour = grid.findNeighbour(center);
+            if(center.getCellStatus()==CellStatus.BLANK && bringToLife(center, neighbour)){
+                if(grid.getMajorityColor(neighbour)==CellStatus.RED){
+                    bringToRed.add(center);
+                } else if (grid.getMajorityColor(neighbour) == CellStatus.BLUE) {
+                    bringToBlue.add(center);
                 }
+            } else if (overpopulation(center, neighbour)){
+                overpopulation.add(center);
             }
         }
-        System.out.println("After a generation");
+//        System.out.println("After a generation");
         for(Cell red: bringToRed){
             grid.getCell(red.getX(), red.getY()).setCellStatus(CellStatus.RED);
         }
