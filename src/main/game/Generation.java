@@ -12,9 +12,9 @@ public class Generation {
      *  checks whether a user os left with no alive cells*/
 
     private final Grid grid;
-    private static int numberOfGen = 0; // class variable, keep track of the number of generations
+    private int numberOfGen = 0; // class variable, keep track of the number of generations
 
-    public static int getNumberOfGen() {
+    public int getNumberOfGen() {
         return numberOfGen;
     }
 

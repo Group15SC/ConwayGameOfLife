@@ -18,6 +18,11 @@ public class Grid{
     public Cell getCell(int x, int y){
         return grid[y][x];
     }
+
+    public Cell[][] getGrid() {
+        return grid;
+    }
+
     public Cell[][] fillGrid(int width, int height){
         grid = new Cell[height][width];
         for (int y = 0; y < height; y ++){
