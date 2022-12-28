@@ -39,7 +39,7 @@ public class Generation {
                 overpopulation.add(center);
             }
         }
-//        System.out.println("After a generation");
+        System.out.println("After a generation");
         for(Cell red: bringToRed){
             grid.getCell(red.getX(), red.getY()).setCellStatus(CellStatus.RED);
         }
