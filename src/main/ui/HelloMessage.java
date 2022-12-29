@@ -19,7 +19,7 @@ public class HelloMessage {
         JPanel panel = new JPanel();
         JLabel logo = new JLabel(newicon);
         JLabel text = new JLabel("<html>Welcome to Conway's Game of Life!<br/>This is a 2 player version game, so please enter the names of two players one by one.<br/>Please be aware that we only accept names start with character :)<html>");
-        text.setFont(new Font("Ink Free", Font.BOLD, 20));
+        text.setFont(new Font("Sans Serif", Font.BOLD, 20));
         panel.add(logo);
         panel.add(text,BorderLayout.EAST);
         logo.setPreferredSize(new Dimension(180,180));

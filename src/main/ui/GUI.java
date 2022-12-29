@@ -73,8 +73,8 @@ public class GUI implements ActionListener {
         title_panel.setBackground(new Color(0,0,0));
 
         title_panel.add(title, BorderLayout.WEST);
-        title_panel.add(generation_info, SpringLayout.EAST);
-        title_panel.add(cell_info, SpringLayout.EAST);
+        title_panel.add(generation_info, BorderLayout.CENTER);
+        title_panel.add(cell_info, BorderLayout.EAST);
 
         whole.add(title_panel, BorderLayout.NORTH);
 
@@ -88,7 +88,7 @@ public class GUI implements ActionListener {
 //            buttons[i].setOpaque(true);
             down_panel.add(buttons[i]);
             buttons[i].addActionListener(this);
-            buttons[i].setFont(new Font("Sans Serif", Font.BOLD, 30));
+            buttons[i].setFont(new Font("Sans Serif", Font.BOLD, 25));
         }
 
     }
