@@ -31,7 +31,8 @@ public class HelloMessage {
         JOptionPane.showMessageDialog(null, "Thank you " + player1_name +
                 ", you are the " + colorConverter(player1_color) + " side");
 
-        this.player2_name = handleName(2);
+        String anotherName = handleName(2);
+        this.player2_name = handleSameName(anotherName);
         JOptionPane.showMessageDialog(null, "Thank you " + player2_name +
                 ", you are the " + colorConverter(player2_color) + " side");
 
@@ -55,6 +56,10 @@ public class HelloMessage {
         String color = JOptionPane.showInputDialog("Hello " + player1_name + "!\n" +
                 "Please choose a color between red and blue.\n" +
                 "Enter R for red, enter B for blue.");
+        while(color.length() < 1){
+            color = JOptionPane.showInputDialog("Please choose a color between red and blue to represent your side. \n"+
+                    "Enter R for red, enter B for blue.");
+        }
         while(!"[RB]".contains(color)){
             color = JOptionPane.showInputDialog("Sorry, you can only choose between red and blue :(\n" +
                     "Please enter R for red and B for blue.");
@@ -73,7 +78,11 @@ public class HelloMessage {
 
         String name = JOptionPane.showInputDialog("Player "+ i + ", please enter your name: \n" +
                 "Please be aware that we only accept names start with character.");
-        while(!Character.isLetter(name.charAt(0))){
+        while(name.length() < 1){
+            name = JOptionPane.showInputDialog("Sorry, we need to know your name first.\n" +
+                    "Please enter a name:");
+        }
+        while(!Character.isLetter(name.charAt(0))) {
             name = JOptionPane.showInputDialog("Sorry, we only accept names starts with character :(\n" +
                     "Please try again!");
         }
@@ -99,6 +108,14 @@ public class HelloMessage {
         }
         return player2_name;
 
+    }
+
+    private String handleSameName(String name){
+        while(name.equals(player1_name)){
+            name = JOptionPane.showInputDialog("Sorry, the name is taken by other player.\n" +
+                    "Please enter a different one.");
+        }
+        return name;
     }
 
 }

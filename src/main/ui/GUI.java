@@ -145,10 +145,11 @@ public class GUI implements ActionListener {
                 if (red_turn) {
                     title.setText("RED Player's Turn");
                     if (buttons[i].getText().equals("")) {
-                        action_life = true;
                         buttons[i].setForeground(new Color(255,0,0));
                         buttons[i].setText("R");
+                        action_life = true;
                         updateCell(i, CellStatus.RED);
+                        displayButtons(grid);
                         unableOtherButton(""); /** player unable to hit other dead cells*/
 //                        buttons[i].setBorderPainted(false);
 //                        buttons[i].setOpaque(true);
@@ -160,6 +161,7 @@ public class GUI implements ActionListener {
 //                        grid.getCell(i % 40,i / 40).setCellStatus(CellStatus.RED);
                     } else if (buttons[i].getText().equals("B")) {
                         killAnEnemy(i);
+                        displayButtons(grid);
                         unableOtherButton("B"); /** player unable to hit other blue cells*/
 //                        buttons[i].setBorderPainted(false);
 //                        buttons[i].setOpaque(true);
@@ -168,13 +170,8 @@ public class GUI implements ActionListener {
 //                        isRedPlayerTurnEnd();
                     }
                     if(isRedPlayerTurnEnd()) {
-                        CellCollection blueCells = new CellCollection(grid,CellStatus.BLUE);
-                        CellCollection redCells = new CellCollection(grid,CellStatus.RED);
-                        generation_info.setVisible(true);
-                        cell_info.setVisible(true);
-                        generation_info.setText("Generation:" + Generation.getNumberOfGen() + "   ");
-                        cell_info.setText("   B:" + blueCells.getCellNumber() + "  " + "R:" + redCells.getCellNumber());
-                    };
+                        updateStats();
+                    }
                 }
                 if (!red_turn) {
                     title.setText("BLUE Player's Turn");
@@ -187,12 +184,14 @@ public class GUI implements ActionListener {
                         buttons[i].setText("B");
 //                        buttons[i].setFont(new Font("Sans Serif", Font.BOLD, 30));
                         updateCell(i, CellStatus.BLUE);
+                        displayButtons(grid);
                         unableOtherButton("");
 //                        grid.getCell(i % 40,i / 40).setCellStatus(CellStatus.BLUE);
 //                        title.setText("BLUE Player's Turn");
 //                        bluePlayerTurnEnd();
                     } else if (buttons[i].getText().equals("R")) {
                         killAnEnemy(i);
+                        displayButtons(grid);
                         unableOtherButton("R"); /** player unable to hit other red cells*/
 //                        buttons[i].setBorderPainted(false);
 //                        buttons[i].setOpaque(true);
@@ -201,24 +200,28 @@ public class GUI implements ActionListener {
 //                        bluePlayerTurnEnd();
                     }
                     if(isBluePlayerTurnEnd()){
-                        CellCollection blueCells = new CellCollection(grid,CellStatus.BLUE);
-                        CellCollection redCells = new CellCollection(grid,CellStatus.RED);
-                        generation_info.setVisible(true);
-                        cell_info.setVisible(true);
-                        generation_info.setText("Generation:" + Generation.getNumberOfGen() + "   ");
-                        cell_info.setText("   B:" + blueCells.getCellNumber() + "  " + "R:" + redCells.getCellNumber());
+                        updateStats();
                     }
                 }
             }
         }
     }
 
+    private void updateStats() {
+        CellCollection blueCells = new CellCollection(grid,CellStatus.BLUE);
+        CellCollection redCells = new CellCollection(grid,CellStatus.RED);
+        generation_info.setVisible(true);
+        cell_info.setVisible(true);
+        generation_info.setText("Generation:" + Generation.getNumberOfGen() + "   ");
+        cell_info.setText("   B:" + blueCells.getCellNumber() + "  " + "R:" + redCells.getCellNumber());
+    }
+
     private void killAnEnemy(int buttonId) {
         action_kill = true;
-        buttons[buttonId].setForeground(new Color(255,255,255));
-        buttons[buttonId].setText("");
-//        grid.getCell(buttonId % 40,buttonId / 40).setCellStatus(CellStatus.BLANK);
         updateCell(buttonId, CellStatus.BLANK);
+//        buttons[buttonId].setForeground(new Color(255,255,255));
+//        buttons[buttonId].setText("");
+//        grid.getCell(buttonId % 40,buttonId / 40).setCellStatus(CellStatus.BLANK);
     }
 
     private boolean isBluePlayerTurnEnd() {
@@ -229,9 +232,8 @@ public class GUI implements ActionListener {
 //                            title.setText("RED Player's Turn");
             red_turn = true;
             action_life = false;
-            setButtonFree("");
             action_kill = false;
-            setButtonFree("R");
+            setButtonFree();
             title.setText("RED Player's Turn");
             checkWinner();
             return true;
@@ -246,9 +248,8 @@ public class GUI implements ActionListener {
             displayButtons(grid);
             red_turn = false;
             action_life = false;
-            setButtonFree("");
             action_kill = false;
-            setButtonFree("B");
+            setButtonFree();
             title.setText("BLUE Player's Turn");
             checkWinner();
             return true;
@@ -329,12 +330,10 @@ public class GUI implements ActionListener {
     }
 
     /** make buttons free to choose again */
-    private void setButtonFree(String color){
+    private void setButtonFree(){
 
         for(JButton button: buttons){
-            if(button.getText().equals(color)){
-                button.setEnabled(true);
-            }
+            button.setEnabled(true);
         }
 
     }
