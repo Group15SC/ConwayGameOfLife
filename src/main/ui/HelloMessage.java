@@ -1,6 +1,7 @@
 package main.ui;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Objects;
 
 public class HelloMessage {
@@ -11,10 +12,19 @@ public class HelloMessage {
     private String player2_color;
 
     public HelloMessage(){
-        ImageIcon logo = new ImageIcon("logo.png");
-        JOptionPane.showMessageDialog(null, "Welcome to Conway's Game of Life!\n" +
-                "This is a 2 player version game, so please enter the names of two players one by one.\n" +
-                "Please be aware that we only accept names start with character :)");
+        ImageIcon icon = new ImageIcon("logo.png");
+        Image image = icon.getImage();
+        Image newimage = image.getScaledInstance(200,200, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon newicon = new ImageIcon(newimage);
+        JPanel panel = new JPanel();
+        JLabel logo = new JLabel(newicon);
+        JLabel text = new JLabel("<html>Welcome to Conway's Game of Life!<br/>This is a 2 player version game, so please enter the names of two players one by one.<br/>Please be aware that we only accept names start with character :)<html>");
+        text.setFont(new Font("Ink Free", Font.BOLD, 20));
+        panel.add(logo);
+        panel.add(text,BorderLayout.EAST);
+        logo.setPreferredSize(new Dimension(200,200));
+        text.setPreferredSize(new Dimension(800,200));
+        JOptionPane.showMessageDialog(null, panel, "Conway's Game of Life", JOptionPane.DEFAULT_OPTION);
 
         this.player1_name = handleName(1);
         handleColor();
