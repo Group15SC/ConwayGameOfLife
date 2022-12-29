@@ -14,7 +14,7 @@ public class HelloMessage {
     public HelloMessage(){
         ImageIcon icon = new ImageIcon("logo.png");
         Image image = icon.getImage();
-        Image newimage = image.getScaledInstance(200,200, java.awt.Image.SCALE_SMOOTH);
+        Image newimage = image.getScaledInstance(160,160, java.awt.Image.SCALE_SMOOTH);
         ImageIcon newicon = new ImageIcon(newimage);
         JPanel panel = new JPanel();
         JLabel logo = new JLabel(newicon);
@@ -22,8 +22,8 @@ public class HelloMessage {
         text.setFont(new Font("Ink Free", Font.BOLD, 20));
         panel.add(logo);
         panel.add(text,BorderLayout.EAST);
-        logo.setPreferredSize(new Dimension(200,200));
-        text.setPreferredSize(new Dimension(800,200));
+        logo.setPreferredSize(new Dimension(180,180));
+        text.setPreferredSize(new Dimension(600,180));
         JOptionPane.showMessageDialog(null, panel, "Conway's Game of Life", JOptionPane.DEFAULT_OPTION);
 
         this.player1_name = handleName(1);

@@ -21,11 +21,9 @@ public class GUI implements ActionListener {
     private final JButton[] buttons = new JButton[1600];
     private Player player_red;
     private Player player_blue;
-    private int turn;
     private Grid grid;
-    private boolean notWin;
     private boolean red_turn;
-    Generation generation;
+    private Generation generation;
     boolean action_kill;
     boolean action_life;
     public GUI() {
@@ -88,7 +86,6 @@ public class GUI implements ActionListener {
     public void setUp() {
         HelloMessage helloMessage = new HelloMessage();
         grid = new Grid(40, 40);
-        notWin = true;
         action_life = false;
         action_kill = false;
         grid.getCell(1,0).setCellStatus(CellStatus.RED);
@@ -103,37 +100,6 @@ public class GUI implements ActionListener {
         player_blue = new Player(helloMessage.getBluePlayerName(), "B");
 
         firstTurn();
-
-    }
-    public void gameOn() {
-
-        turn = 0; // turn == 0 -> red;  turn == 1 -> blue
-        while(notWin) {
-            /**
-            while(turn == 0) {
-                labelRed.setVisible(true);
-                generation = new Generation(grid);
-                int before = generation.getNumberOfGen();
-                generation.aGeneration();
-                updateButtons(grid);
-                if(generation.getNumberOfGen() != before) {
-                    turn ++;
-                }
-            }
-            while(turn == 1) {
-                labelBlue.setVisible(true);
-                generation = new Generation(grid);
-                int before = generation.getNumberOfGen();
-                generation.aGeneration();
-                updateButtons(grid);
-                if(generation.getNumberOfGen() != before) {
-                    turn --;
-                }
-            }
-             */
-
-        }
-
     }
 
     @Override
@@ -279,7 +245,7 @@ public class GUI implements ActionListener {
     /** check which who owns the first turn*/
     private void firstTurn(){
         try{
-            Thread.sleep(2000);
+            Thread.sleep(1500);
         } catch (InterruptedException e){
             e.printStackTrace();
         }
