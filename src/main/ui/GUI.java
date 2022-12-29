@@ -173,7 +173,7 @@ public class GUI implements ActionListener {
                         updateStats();
                     }
                 }
-                if (!red_turn) {
+                else {
                     title.setText("BLUE Player's Turn");
                     if (buttons[i].getText().equals("")) {
                         action_life = true;
@@ -309,7 +309,7 @@ public class GUI implements ActionListener {
         for (JButton button : buttons) {
             button.setEnabled(false);
         }
-        title.setFont(new Font("Sans Serif", Font.BOLD, 40));
+        title.setFont(new Font("Sans Serif", Font.BOLD, 60));
         title.setText("Player " + player.getName() + " wins the game!");
     }
 
