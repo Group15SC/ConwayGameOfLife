@@ -7,7 +7,7 @@ import main.board.Grid;
 import main.game.Generation;
 import main.player.Player;
 import main.ui.GUI;
-import main.ui.Input;
+//import main.ui.Input;
 
 import java.util.ArrayList;
 import java.util.Arrays;

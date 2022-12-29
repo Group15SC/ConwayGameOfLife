@@ -1,6 +1,6 @@
 package main.ui;
 
-import main.board.Cell;
+import main.board.CellCollection;
 import main.board.CellStatus;
 import main.board.Grid;
 import main.game.Generation;
@@ -11,7 +11,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GUI extends JFrame implements ActionListener {
+public class GUI implements ActionListener {
+    private JFrame whole = new JFrame();
+    private JPanel title_panel = new JPanel();
+    private JLabel title = new JLabel();
+    private JLabel game_info = new JLabel();
+    private JPanel right_panel = new JPanel();
+    private JPanel down_panel = new JPanel();
     private final TextField tf1 = new TextField();
     private final TextField tf2 = new TextField();
     private final JLabel labelRed = new JLabel("Red Player's turn");
@@ -25,79 +31,56 @@ public class GUI extends JFrame implements ActionListener {
     private Player player_red;
     private Player player_blue;
     private int turn;
-
     private Grid grid;
     private boolean notWin;
     private Generation generation;
     public GUI() {
-        JFrame whole = new JFrame();
+
         whole.setTitle("Conway's Game of Life");
-        whole.setSize(1000,800);
-        whole.setLocationRelativeTo(null);
-        whole.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        whole.setSize(1200,1100);
+        whole.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         whole.setLayout(new BorderLayout());
+        whole.setVisible(true);
 
-        Dimension dim_right = new Dimension(150,0);//set the size of right side
-        Dimension dim_left = new Dimension(550,0);//set the size of left side
-        Dimension dim_buttons = new Dimension(140,50);//set the size of right buttons
-        this.setPreferredSize(dim_left);
+        title.setBackground(new Color(25, 25,25));
+        title.setForeground(new Color(255,140,0)); //set text color
+        title.setFont(new Font("Ink Free", Font.BOLD, 60));
+        title.setHorizontalAlignment(JLabel.CENTER); //set center alignment
+        title.setText("Conway's Game of Life");
+        title.setOpaque(true);
 
-        /* left side consists of 40x40 buttons */
-        JPanel jp_left = new JPanel(new GridLayout(40,40));
+        game_info.setBackground(new Color(25, 25,25));
+        game_info.setForeground(new Color(255,140,0)); //set text color
+        game_info.setFont(new Font("Ink Free", Font.BOLD, 20));
+        game_info.setHorizontalAlignment(JLabel.CENTER); //set center alignment
+        game_info.setText("Game Info");
+        game_info.setOpaque(true);
 
-//        FrameListener fl = new FrameListener(this);
+        title_panel.setLayout(new BorderLayout());
+        title_panel.setBounds(0,0,1200,100);
+        title_panel.setBackground(new Color(0,0,0));
 
-        whole.add(jp_left, BorderLayout.CENTER);
+        title_panel.add(title, BorderLayout.WEST);
+        title_panel.add(game_info, BorderLayout.EAST);
+
+        whole.add(title_panel, BorderLayout.NORTH);
+
+        down_panel.setLayout(new GridLayout(40,40));
+
+        whole.add(down_panel, BorderLayout.CENTER);
+
         for(int i = 0; i < buttons.length; i ++) {
             buttons[i] = new JButton();
             buttons[i].setBackground(Color.WHITE);
             buttons[i].setOpaque(true);
-//            buttons[i].addActionListener(fl);
-            jp_left.add(buttons[i]);
+            down_panel.add(buttons[i]);
             buttons[i].addActionListener(this);
         }
 
-        /* right side consists of 2 JLabels, 4 textFields and 1 JButton */
-        JPanel jp_right = new JPanel();
-        jp_right.setPreferredSize(dim_right); // set the right part's size
-        whole.add(jp_right,BorderLayout.EAST);
-        jp_right.setLayout(new FlowLayout());
-        labelRed.setPreferredSize(dim_buttons);
-        labelRed.setForeground(Color.RED);
-        labelBlue.setPreferredSize(dim_buttons);
-        labelBlue.setForeground(Color.BLUE);
-        labelRed.setVisible(false);
-        labelBlue.setVisible(false);
-        label1.setPreferredSize(dim_buttons); // set every part of right part's size
-        tf1.setPreferredSize(dim_buttons); // set every part of right part's size
-        label2.setPreferredSize(dim_buttons); // set every part of right part's size
-        tf2.setPreferredSize(dim_buttons); // set every part of right part's size
-        start.setPreferredSize(dim_buttons); // set every part of right part's size
-
-        /* add components to right panel */
-        jp_right.add(labelRed);
-        jp_right.add(labelBlue);
-        jp_right.add(label1);
-        jp_right.add(tf1);
-        jp_right.add(label2);
-        jp_right.add(tf2);
-        jp_right.add(start);
-
-        /* add ActionListener to right part */
-//        RightListener rightListener = new RightListener(this);
-//        tf1.addActionListener(rightListener);
-//        tf2.addActionListener(rightListener);
-//        start.addActionListener(rightListener);
-        tf1.addActionListener(this);
-        tf2.addActionListener(this);
-        start.addActionListener(this);
-
-        /* make sure the whole JFrame is visible */
-        whole.setVisible(true);
     }
 
     public void setUp() {
-
+        HelloMessage helloMessage = new HelloMessage();
         grid = new Grid(40, 40);
         notWin = true;
         grid.getCell(1,0).setCellStatus(CellStatus.RED);
@@ -109,34 +92,37 @@ public class GUI extends JFrame implements ActionListener {
         grid.getCell(3,1).setCellStatus(CellStatus.BLUE);
         updateButtons(grid);
         generation = new Generation(grid);
-        player_red = new Player(name_red, "R");
-        player_blue = new Player(name_blue, "B");
+        player_red = new Player(helloMessage.getRedPlayerName(), "R");
+        player_blue = new Player(helloMessage.getBluePlayerName(), "B");
+
+        firstTurn();
+
     }
     public void gameOn() {
 
         turn = 0; // turn == 0 -> red;  turn == 1 -> blue
         while(notWin) {
 
-//            while(turn == 0) {
-//                labelRed.setVisible(true);
-//                generation = new Generation(grid);
-//                int before = generation.getNumberOfGen();
-//                generation.aGeneration();
-//                updateButtons(grid);
-//                if(generation.getNumberOfGen() != before) {
-//                    turn ++;
-//                }
-//            }
-//            while(turn == 1) {
-//                labelBlue.setVisible(true);
-//                generation = new Generation(grid);
-//                int before = generation.getNumberOfGen();
-//                generation.aGeneration();
-//                updateButtons(grid);
-//                if(generation.getNumberOfGen() != before) {
-//                    turn --;
-//                }
-//            }
+            /*while(turn == 0) {
+                labelRed.setVisible(true);
+                generation = new Generation(grid);
+                int before = generation.getNumberOfGen();
+                generation.aGeneration();
+                updateButtons(grid);
+                if(generation.getNumberOfGen() != before) {
+                    turn ++;
+                }
+            }
+            while(turn == 1) {
+                labelBlue.setVisible(true);
+                generation = new Generation(grid);
+                int before = generation.getNumberOfGen();
+                generation.aGeneration();
+                updateButtons(grid);
+                if(generation.getNumberOfGen() != before) {
+                    turn --;
+                }
+            }*/
 
         }
 
@@ -159,7 +145,7 @@ public class GUI extends JFrame implements ActionListener {
                     if (buttons[i].getBackground() == Color.WHITE) {
                         buttons[i].setBorderPainted(false);
                         buttons[i].setOpaque(true);
-                        buttons[i].setBackground(Color.RED);
+                        buttons[i].setBackground(new Color(255,0,0));
                         grid.getCell(i % 40,i / 40).setCellStatus(CellStatus.RED);
                     } else if (buttons[i].getBackground() == Color.BLUE) {
                         buttons[i].setBorderPainted(false);
@@ -202,5 +188,45 @@ public class GUI extends JFrame implements ActionListener {
         }
     }
 
+    /** check if any player has win the game
+     * should be inserted after each turn */
+    private void checkWinner(){
+        CellCollection red_cells = new CellCollection(grid, CellStatus.RED);
+        CellCollection blue_cells = new CellCollection(grid, CellStatus.BLUE);
+        if(red_cells.getCellNumber() == 0){
+            declareWinner(player_blue);
+        }
+        if(blue_cells.getCellNumber()==0){
+            declareWinner(player_red);
+        }
+    }
+
+    private boolean red_turn;
+
+    /** check which who owns the first turn*/
+    private void firstTurn(){
+        // red first
+        if(player_blue.getName().compareTo(player_red.getName())>0){
+            red_turn = true;
+            title_panel.add(labelRed);
+        }
+        else {
+            red_turn = false;
+            title_panel.add(labelBlue);
+        }
+    }
+
+    /** make all buttons unable to choose, declare the winner on top panel */
+    private void declareWinner(Player player){
+        for(int i=0; i<buttons.length; i++){
+            buttons[i].setEnabled(false);
+        }
+        title.setText("Player " + player.getName() + " wins the game!");
+    }
+
+    /** use button id to set the corresponding cell status on grid*/
+    private void updateCell(int buttonId, CellStatus status) {
+        grid.getCell(buttonId % 40, buttonId / 40).setCellStatus(status);
+    }
 
 }

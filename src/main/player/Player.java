@@ -3,7 +3,7 @@ package main.player;
 import main.board.CellCollection;
 import main.board.CellStatus;
 import main.board.Grid;
-import main.ui.Input;
+//import main.ui.Input;
 
 public class Player {
     private final String name;
