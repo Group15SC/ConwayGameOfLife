@@ -44,7 +44,7 @@ public class GUI implements ActionListener {
         whole.setLocationRelativeTo(null);
         whole.setVisible(true);
 
-        title.setBackground(new Color(25, 25,25));
+        title.setBackground(new Color(0, 0,0));
         title.setForeground(new Color(255,140,0)); //set text color
         title.setFont(new Font("Sans Serif", Font.BOLD, 80));
         title.setHorizontalAlignment(JLabel.CENTER);//set center alignment
@@ -52,29 +52,31 @@ public class GUI implements ActionListener {
         title.setText("Conway's Game of Life");
         title.setOpaque(true);
 
-        generation_info.setBackground(new Color(25, 25,25));
-        generation_info.setForeground(new Color(255,140,0)); //set text color
+        generation_info.setBackground(new Color(0, 0,0));
+        generation_info.setForeground(new Color(0,255,0)); //set text color
         generation_info.setFont(new Font("Sans Serif", Font.BOLD, 30));
 //        generation_info.setHorizontalAlignment(JLabel.CENTER); //set center alignment
 //        generation_info.setVerticalAlignment(JLabel.WEST);
         generation_info.setText("generation");
         generation_info.setOpaque(true);
+        generation_info.setVisible(false);
 
-        cell_info.setBackground(new Color(25, 25,25));
-        cell_info.setForeground(new Color(255,140,0)); //set text color
+        cell_info.setBackground(new Color(0, 0,0));
+        cell_info.setForeground(new Color(0,255,0)); //set text color
         cell_info.setFont(new Font("Sans Serif", Font.BOLD, 30));
 //        generation_info.setHorizontalAlignment(JLabel.CENTER); //set center alignment
 //        generation_info.setVerticalAlignment(JLabel.WEST);
         cell_info.setText("cell");
         cell_info.setOpaque(true);
+        cell_info.setVisible(false);
 
         title_panel.setLayout(new BorderLayout());
         title_panel.setBounds(0,0,1200,100);
         title_panel.setBackground(new Color(0,0,0));
 
         title_panel.add(title, BorderLayout.WEST);
-        title_panel.add(generation_info, BorderLayout.CENTER);
-        title_panel.add(cell_info, BorderLayout.EAST);
+        title_panel.add(cell_info, BorderLayout.CENTER);
+        title_panel.add(generation_info, BorderLayout.EAST);
 
         whole.add(title_panel, BorderLayout.NORTH);
 
@@ -165,11 +167,18 @@ public class GUI implements ActionListener {
 //                        title.setText("RED Player's Turn");
 //                        isRedPlayerTurnEnd();
                     }
-                    isRedPlayerTurnEnd();
+                    if(isRedPlayerTurnEnd()) {
+                        CellCollection blueCells = new CellCollection(grid,CellStatus.BLUE);
+                        CellCollection redCells = new CellCollection(grid,CellStatus.RED);
+                        generation_info.setVisible(true);
+                        cell_info.setVisible(true);
+                        generation_info.setText("Generation:" + Generation.getNumberOfGen() + "   ");
+                        cell_info.setText("   B:" + blueCells.getCellNumber() + "  " + "R:" + redCells.getCellNumber());
+                    };
                 }
                 if (!red_turn) {
                     title.setText("BLUE Player's Turn");
-                    if (buttons[i].getText() == "") {
+                    if (buttons[i].getText().equals("")) {
                         action_life = true;
 //                        buttons[i].setBorderPainted(false);
 //                        buttons[i].setOpaque(true);
@@ -191,7 +200,14 @@ public class GUI implements ActionListener {
 //                        title.setText("BLUE Player's Turn");
 //                        bluePlayerTurnEnd();
                     }
-                    isBluePlayerTurnEnd();
+                    if(isBluePlayerTurnEnd()){
+                        CellCollection blueCells = new CellCollection(grid,CellStatus.BLUE);
+                        CellCollection redCells = new CellCollection(grid,CellStatus.RED);
+                        generation_info.setVisible(true);
+                        cell_info.setVisible(true);
+                        generation_info.setText("Generation:" + Generation.getNumberOfGen() + "   ");
+                        cell_info.setText("   B:" + blueCells.getCellNumber() + "  " + "R:" + redCells.getCellNumber());
+                    }
                 }
             }
         }
@@ -205,7 +221,7 @@ public class GUI implements ActionListener {
         updateCell(buttonId, CellStatus.BLANK);
     }
 
-    private void isBluePlayerTurnEnd() {
+    private boolean isBluePlayerTurnEnd() {
         if(action_life && action_kill) {
 //            generation = new Generation(grid);
             generation.aGeneration();
@@ -218,11 +234,12 @@ public class GUI implements ActionListener {
             setButtonFree("R");
             title.setText("RED Player's Turn");
             checkWinner();
-
+            return true;
         }
+        return false;
     }
 
-    private void isRedPlayerTurnEnd() {
+    private boolean isRedPlayerTurnEnd() {
         if(action_life && action_kill) {
 //            generation = new Generation(grid);
             generation.aGeneration();
@@ -234,7 +251,8 @@ public class GUI implements ActionListener {
             setButtonFree("B");
             title.setText("BLUE Player's Turn");
             checkWinner();
-        }
+            return true;
+        }return false;
     }
 
     private void displayButtons(Grid grid) {
