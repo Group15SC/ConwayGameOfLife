@@ -11,6 +11,7 @@ public class HelloMessage {
     private String player2_color;
 
     public HelloMessage(){
+        ImageIcon logo = new ImageIcon("logo.png");
         JOptionPane.showMessageDialog(null, "Welcome to Conway's Game of Life!\n" +
                 "This is a 2 player version game, so please enter the names of two players one by one.\n" +
                 "Please be aware that we only accept names start with character :)");

@@ -15,29 +15,21 @@ public class GUI implements ActionListener {
     private JFrame whole = new JFrame();
     private JPanel title_panel = new JPanel();
     private JLabel title = new JLabel();
-    private JLabel game_info = new JLabel();
-    private JPanel right_panel = new JPanel();
+    private JLabel generation_info = new JLabel();
+    private JLabel cell_info = new JLabel();
     private JPanel down_panel = new JPanel();
-    private final TextField tf1 = new TextField();
-    private final TextField tf2 = new TextField();
-    private final JLabel labelRed = new JLabel("Red Player's turn");
-    private final JLabel labelBlue = new JLabel("Blue Player's turn");
-    private final JLabel label1 = new JLabel("Red Player's Name:");
-    private final JLabel label2 = new JLabel("Blue Player's Name:");
-    private final JButton start = new JButton("Start Game");
     private final JButton[] buttons = new JButton[1600];
-    private String name_red;
-    private String name_blue;
     private Player player_red;
     private Player player_blue;
     private int turn;
     private Grid grid;
     private boolean notWin;
-    private Generation generation;
+    private boolean red_turn;
+    Generation generation = new Generation(grid);
     public GUI() {
 
         whole.setTitle("Conway's Game of Life");
-        whole.setSize(1200,1100);
+        whole.setSize(1200,1300);
         whole.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         whole.setLayout(new BorderLayout());
         whole.setLocationRelativeTo(null);
@@ -45,24 +37,35 @@ public class GUI implements ActionListener {
 
         title.setBackground(new Color(25, 25,25));
         title.setForeground(new Color(255,140,0)); //set text color
-        title.setFont(new Font("Ink Free", Font.BOLD, 60));
-        title.setHorizontalAlignment(JLabel.CENTER); //set center alignment
+        title.setFont(new Font("Ink Free", Font.BOLD, 80));
+        title.setHorizontalAlignment(JLabel.CENTER);//set center alignment
+        title.setVerticalAlignment(JLabel.CENTER);
         title.setText("Conway's Game of Life");
         title.setOpaque(true);
 
-        game_info.setBackground(new Color(25, 25,25));
-        game_info.setForeground(new Color(255,140,0)); //set text color
-        game_info.setFont(new Font("Ink Free", Font.BOLD, 20));
-        game_info.setHorizontalAlignment(JLabel.CENTER); //set center alignment
-        game_info.setText("Game Info");
-        game_info.setOpaque(true);
+        generation_info.setBackground(new Color(25, 25,25));
+        generation_info.setForeground(new Color(255,140,0)); //set text color
+        generation_info.setFont(new Font("Ink Free", Font.BOLD, 30));
+//        generation_info.setHorizontalAlignment(JLabel.CENTER); //set center alignment
+//        generation_info.setVerticalAlignment(JLabel.WEST);
+        generation_info.setText("generation");
+        generation_info.setOpaque(true);
+
+        cell_info.setBackground(new Color(25, 25,25));
+        cell_info.setForeground(new Color(255,140,0)); //set text color
+        cell_info.setFont(new Font("Ink Free", Font.BOLD, 30));
+//        generation_info.setHorizontalAlignment(JLabel.CENTER); //set center alignment
+//        generation_info.setVerticalAlignment(JLabel.WEST);
+        cell_info.setText("cell");
+        cell_info.setOpaque(true);
 
         title_panel.setLayout(new BorderLayout());
         title_panel.setBounds(0,0,1200,100);
         title_panel.setBackground(new Color(0,0,0));
 
         title_panel.add(title, BorderLayout.WEST);
-        title_panel.add(game_info, BorderLayout.EAST);
+        title_panel.add(generation_info, SpringLayout.EAST);
+        title_panel.add(cell_info, SpringLayout.EAST);
 
         whole.add(title_panel, BorderLayout.NORTH);
 
@@ -92,7 +95,6 @@ public class GUI implements ActionListener {
         grid.getCell(2,1).setCellStatus(CellStatus.BLUE);
         grid.getCell(3,1).setCellStatus(CellStatus.BLUE);
         updateButtons(grid);
-        generation = new Generation(grid);
         player_red = new Player(helloMessage.getRedPlayerName(), "R");
         player_blue = new Player(helloMessage.getBluePlayerName(), "B");
 
@@ -103,8 +105,8 @@ public class GUI implements ActionListener {
 
         turn = 0; // turn == 0 -> red;  turn == 1 -> blue
         while(notWin) {
-
-            /*while(turn == 0) {
+            /**
+            while(turn == 0) {
                 labelRed.setVisible(true);
                 generation = new Generation(grid);
                 int before = generation.getNumberOfGen();
@@ -123,7 +125,8 @@ public class GUI implements ActionListener {
                 if(generation.getNumberOfGen() != before) {
                     turn --;
                 }
-            }*/
+            }
+             */
 
         }
 
@@ -131,41 +134,37 @@ public class GUI implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == start) {
-            if(e.getSource() == tf1) {
-                name_red = new String(e.getActionCommand());
-            }
-            if(e.getSource() == tf2) {
-                name_blue = new String(e.getActionCommand());
-            }
-            start.setEnabled(false);
-        }
+
         for(int i = 0; i < buttons.length; i++) {
             if(e.getSource() == buttons[i]) {
-                if (turn == 0) {
+                if (red_turn) {
                     if (buttons[i].getBackground() == Color.WHITE) {
                         buttons[i].setBorderPainted(false);
                         buttons[i].setOpaque(true);
                         buttons[i].setBackground(new Color(255,0,0));
+                        title.setText("RED Player's Turn");
                         grid.getCell(i % 40,i / 40).setCellStatus(CellStatus.RED);
                     } else if (buttons[i].getBackground() == Color.BLUE) {
                         buttons[i].setBorderPainted(false);
                         buttons[i].setOpaque(true);
                         buttons[i].setBackground(Color.WHITE);
                         grid.getCell(i % 40,i / 40).setCellStatus(CellStatus.BLANK);
+                        title.setText("RED Player's Turn");
                     }
                 }
-                if (turn == 1) {
+                if (!red_turn) {
                     if (buttons[i].getBackground() == Color.WHITE) {
                         buttons[i].setBorderPainted(false);
                         buttons[i].setOpaque(true);
                         buttons[i].setBackground(Color.BLUE);
                         grid.getCell(i % 40,i / 40).setCellStatus(CellStatus.BLUE);
+                        title.setText("BLUE Player's Turn");
                     } else if (buttons[i].getBackground() == Color.RED) {
                         buttons[i].setBorderPainted(false);
                         buttons[i].setOpaque(true);
                         buttons[i].setBackground(Color.WHITE);
                         grid.getCell(i % 40,i / 40).setCellStatus(CellStatus.BLANK);
+                        title.setText("BLUE Player's Turn");
                     }
                 }
             }
@@ -202,18 +201,23 @@ public class GUI implements ActionListener {
         }
     }
 
-    private boolean red_turn;
-
     /** check which who owns the first turn*/
     private void firstTurn(){
+        try{
+            Thread.sleep(2000);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
         // red first
         if(player_blue.getName().compareTo(player_red.getName())>0){
             red_turn = true;
-            title_panel.add(labelRed);
+            title.setText("RED Player's Turn");
+//            title_panel.add(labelRed);
         }
         else {
             red_turn = false;
-            title_panel.add(labelBlue);
+            title.setText("BLUE Player's Turn");
+//            title_panel.add(labelBlue);
         }
     }
 
