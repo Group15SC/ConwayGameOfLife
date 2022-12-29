@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
         GUI gui = new GUI();
         gui.setUp();
-        gui.gameOn();
+//        gui.gameOn();
     }
 
     private static void displayGrid(Grid testGrid) {

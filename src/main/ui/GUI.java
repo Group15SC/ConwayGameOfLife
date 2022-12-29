@@ -25,7 +25,9 @@ public class GUI implements ActionListener {
     private Grid grid;
     private boolean notWin;
     private boolean red_turn;
-    Generation generation = new Generation(grid);
+    Generation generation;
+    boolean action_kill;
+    boolean action_life;
     public GUI() {
 
         whole.setTitle("Conway's Game of Life");
@@ -74,9 +76,9 @@ public class GUI implements ActionListener {
         whole.add(down_panel, BorderLayout.CENTER);
 
         for(int i = 0; i < buttons.length; i ++) {
-            buttons[i] = new JButton();
+            buttons[i] = new JButton("");
             buttons[i].setBackground(Color.WHITE);
-            buttons[i].setOpaque(true);
+//            buttons[i].setOpaque(true);
             down_panel.add(buttons[i]);
             buttons[i].addActionListener(this);
         }
@@ -87,6 +89,8 @@ public class GUI implements ActionListener {
         HelloMessage helloMessage = new HelloMessage();
         grid = new Grid(40, 40);
         notWin = true;
+        action_life = false;
+        action_kill = false;
         grid.getCell(1,0).setCellStatus(CellStatus.RED);
         grid.getCell(2,0).setCellStatus(CellStatus.RED);
         grid.getCell(3,0).setCellStatus(CellStatus.RED);
@@ -138,33 +142,87 @@ public class GUI implements ActionListener {
         for(int i = 0; i < buttons.length; i++) {
             if(e.getSource() == buttons[i]) {
                 if (red_turn) {
-                    if (buttons[i].getBackground() == Color.WHITE) {
-                        buttons[i].setBorderPainted(false);
-                        buttons[i].setOpaque(true);
-                        buttons[i].setBackground(new Color(255,0,0));
+                    if (buttons[i].getText() == "") {
+                        action_life = true;
+//                        buttons[i].setBorderPainted(false);
+//                        buttons[i].setOpaque(true);
+//                        buttons[i].setBackground(new Color(255,0,0));
+                        buttons[i].setForeground(new Color(255,0,0));
+                        buttons[i].setText("R");
+                        buttons[i].setFont(new Font("Ink Free", Font.BOLD, 30));
                         title.setText("RED Player's Turn");
                         grid.getCell(i % 40,i / 40).setCellStatus(CellStatus.RED);
-                    } else if (buttons[i].getBackground() == Color.BLUE) {
-                        buttons[i].setBorderPainted(false);
-                        buttons[i].setOpaque(true);
-                        buttons[i].setBackground(Color.WHITE);
+                        if(action_life && action_kill) {
+                            generation = new Generation(grid);
+                            generation.aGeneration();
+                            updateButtons(grid);
+                            title.setText("BLUE Player's Turn");
+                            red_turn = false;
+                            action_life = false;
+                            action_kill = false;
+                            checkWinner();
+                        }
+                    } else if (buttons[i].getText() == "B") {
+                        action_kill = true;
+//                        buttons[i].setBorderPainted(false);
+//                        buttons[i].setOpaque(true);
+//                        buttons[i].setBackground(Color.WHITE);
+                        buttons[i].setForeground(new Color(255,255,255));
+                        buttons[i].setText("");
                         grid.getCell(i % 40,i / 40).setCellStatus(CellStatus.BLANK);
                         title.setText("RED Player's Turn");
+                        if(action_life && action_kill) {
+                            generation = new Generation(grid);
+                            generation.aGeneration();
+                            updateButtons(grid);
+                            title.setText("BLUE Player's Turn");
+                            red_turn = false;
+                            action_life = false;
+                            action_kill = false;
+                            checkWinner();
+                        }
                     }
                 }
                 if (!red_turn) {
-                    if (buttons[i].getBackground() == Color.WHITE) {
-                        buttons[i].setBorderPainted(false);
-                        buttons[i].setOpaque(true);
-                        buttons[i].setBackground(Color.BLUE);
+                    if (buttons[i].getText() == "") {
+                        action_life = true;
+//                        buttons[i].setBorderPainted(false);
+//                        buttons[i].setOpaque(true);
+//                        buttons[i].setBackground(Color.BLUE);
+                        buttons[i].setForeground(new Color(0,0,255));
+                        buttons[i].setText("B");
+                        buttons[i].setFont(new Font("Ink Free", Font.BOLD, 30));
                         grid.getCell(i % 40,i / 40).setCellStatus(CellStatus.BLUE);
                         title.setText("BLUE Player's Turn");
-                    } else if (buttons[i].getBackground() == Color.RED) {
-                        buttons[i].setBorderPainted(false);
-                        buttons[i].setOpaque(true);
-                        buttons[i].setBackground(Color.WHITE);
+                        if(action_life && action_kill) {
+                            generation = new Generation(grid);
+                            generation.aGeneration();
+                            updateButtons(grid);
+                            title.setText("RED Player's Turn");
+                            red_turn = true;
+                            action_life = false;
+                            action_kill = false;
+                            checkWinner();
+                        }
+                    } else if (buttons[i].getText() == "R") {
+                        action_kill = true;
+//                        buttons[i].setBorderPainted(false);
+//                        buttons[i].setOpaque(true);
+//                        buttons[i].setBackground(Color.WHITE);
+                        buttons[i].setForeground(new Color(255,255,255));
+                        buttons[i].setText("");
                         grid.getCell(i % 40,i / 40).setCellStatus(CellStatus.BLANK);
                         title.setText("BLUE Player's Turn");
+                        if(action_life && action_kill) {
+                            generation = new Generation(grid);
+                            generation.aGeneration();
+                            updateButtons(grid);
+                            title.setText("RED Player's Turn");
+                            red_turn = true;
+                            action_life = false;
+                            action_kill = false;
+                            checkWinner();
+                        }
                     }
                 }
             }
@@ -175,14 +233,28 @@ public class GUI implements ActionListener {
         for(int i = 0; i < grid.getWidth(); i ++) {
             for(int j = 0; j < grid.getHeight(); j++) {
                 if(grid.getCell(i, j).getCellStatus() == CellStatus.RED) {
-                    buttons[40 * j + i].setBorderPainted(false);
-                    buttons[40 * j + i].setOpaque(true);
-                    buttons[40 * j + i].setBackground(Color.RED);
+//                    buttons[40 * j + i].setBorderPainted(false);
+//                    buttons[40 * j + i].setOpaque(true);
+//                    buttons[40 * j + i].setBackground(Color.RED);
+                    buttons[40 * j + i].setForeground(new Color(255,0,0));
+                    buttons[40 * j + i].setText("R");
+                    buttons[40 * j + i].setFont(new Font("Ink Free", Font.BOLD, 30));
                 }
                 else if(grid.getCell(i, j).getCellStatus() == CellStatus.BLUE) {
-                    buttons[40 * j + i].setBorderPainted(false);
-                    buttons[40 * j + i].setOpaque(true);
-                    buttons[40 * j + i].setBackground(Color.BLUE);
+//                    buttons[40 * j + i].setBorderPainted(false);
+//                    buttons[40 * j + i].setOpaque(true);
+//                    buttons[40 * j + i].setBackground(Color.BLUE);
+                    buttons[40 * j + i].setForeground(new Color(0,0,255));
+                    buttons[40 * j + i].setText("B");
+                    buttons[40 * j + i].setFont(new Font("Ink Free", Font.BOLD, 30));
+                }
+                else {
+//                    buttons[40 * j + i].setBorderPainted(false);
+//                    buttons[40 * j + i].setOpaque(true);
+//                    buttons[40 * j + i].setBackground(Color.BLUE);
+                    buttons[40 * j + i].setForeground(new Color(255,255,255));
+                    buttons[40 * j + i].setText("");
+                    buttons[40 * j + i].setFont(new Font("Ink Free", Font.BOLD, 30));
                 }
             }
         }
@@ -190,15 +262,18 @@ public class GUI implements ActionListener {
 
     /** check if any player has win the game
      * should be inserted after each turn */
-    private void checkWinner(){
+    private boolean checkWinner(){
         CellCollection red_cells = new CellCollection(grid, CellStatus.RED);
         CellCollection blue_cells = new CellCollection(grid, CellStatus.BLUE);
         if(red_cells.getCellNumber() == 0){
             declareWinner(player_blue);
+            return true;
         }
         if(blue_cells.getCellNumber()==0){
             declareWinner(player_red);
+            return true;
         }
+        return false;
     }
 
     /** check which who owns the first turn*/
@@ -226,6 +301,7 @@ public class GUI implements ActionListener {
         for(int i=0; i<buttons.length; i++){
             buttons[i].setEnabled(false);
         }
+        title.setFont(new Font("Ink Free", Font.BOLD, 40));
         title.setText("Player " + player.getName() + " wins the game!");
     }
 
