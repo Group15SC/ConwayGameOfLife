@@ -19,24 +19,24 @@ public class Main {
 //        gui.gameOn();
     }
 
-    private static void displayGrid(Grid testGrid) {
-        for(int y = 0; y < testGrid.getHeight(); y++){
-            for(int x = 0; x < testGrid.getWidth(); x++) {
-                System.out.print(x);
-                Cell cell = testGrid.getCell(x,y);
-                if(cell.getCellStatus()==CellStatus.RED){
-                    System.out.print("R"+"|");
-                }
-                else if(cell.getCellStatus()==CellStatus.BLUE){
-                    System.out.print("B"+"|");
-                }
-                else{
-                    System.out.print(" "+"|");
-                }
-            }
-            System.out.print(y);
-            System.out.println();
-        }
-    }
+//    private static void displayGrid(Grid testGrid) {
+//        for(int y = 0; y < testGrid.getHeight(); y++){
+//            for(int x = 0; x < testGrid.getWidth(); x++) {
+//                System.out.print(x);
+//                Cell cell = testGrid.getCell(x,y);
+//                if(cell.getCellStatus()==CellStatus.RED){
+//                    System.out.print("R"+"|");
+//                }
+//                else if(cell.getCellStatus()==CellStatus.BLUE){
+//                    System.out.print("B"+"|");
+//                }
+//                else{
+//                    System.out.print(" "+"|");
+//                }
+//            }
+//            System.out.print(y);
+//            System.out.println();
+//        }
+//    }
 
 }
