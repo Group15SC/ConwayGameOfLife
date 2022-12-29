@@ -40,6 +40,7 @@ public class GUI implements ActionListener {
         whole.setSize(1200,1100);
         whole.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         whole.setLayout(new BorderLayout());
+        whole.setLocationRelativeTo(null);
         whole.setVisible(true);
 
         title.setBackground(new Color(25, 25,25));
