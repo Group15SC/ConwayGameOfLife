@@ -1,7 +1,6 @@
-import Controller.Controller;
-import Model.CellCollection;
-import Model.Game;
-import View.GUI;
+import main.Controller.Controller;
+import main.Model.Game;
+import main.View.GUI;
 
 public class Main {
     public static void main(String[] args) {
