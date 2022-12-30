@@ -8,7 +8,7 @@ public class Game implements ISubject{
 
     /** take care of data store and computation*/
 
-    ArrayList<IObeserver> obeservers = new ArrayList<>();
+    ArrayList<IObeserver> observers = new ArrayList<>();
 
 
     private Grid grid = new Grid(40, 40);
@@ -44,9 +44,6 @@ public class Game implements ISubject{
         return grid;
     }
 
-//    public Generation getGeneration(){
-//        return generation;
-//    }
 
     public Player getRedPlayer(){
         return player_red;
@@ -68,13 +65,13 @@ public class Game implements ISubject{
 
     @Override
     public void registerObserver(IObeserver o) {
-        obeservers.add(o);
+        observers.add(o);
     }
 
     @Override
     public void notifyObserver() {
-        for(IObeserver o: obeservers){
-            o.updateButtons(grid);
+        for(IObeserver o: observers){
+            o.updateGrid(grid);
         }
     }
 }

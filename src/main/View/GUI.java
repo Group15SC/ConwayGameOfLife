@@ -5,7 +5,7 @@ import main.Model.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class GUI implements IObeserver{
+public class GUI implements IObeserver, UI{
 
     /** take care of the view */
 
@@ -43,14 +43,14 @@ public class GUI implements IObeserver{
         title.setOpaque(true);
 
         generation_info.setBackground(new Color(0, 0,0));
-        generation_info.setForeground(new Color(0,255,0)); //set text color
+        generation_info.setForeground(new Color(12, 173, 12)); //set text color
         generation_info.setFont(new Font("Sans Serif", Font.BOLD, 30));
         generation_info.setText("generation");
         generation_info.setOpaque(true);
         generation_info.setVisible(false);
 
         cell_info.setBackground(new Color(0, 0,0));
-        cell_info.setForeground(new Color(0,255,0)); //set text color
+        cell_info.setForeground(new Color(12, 173, 12)); //set text color
         cell_info.setFont(new Font("Sans Serif", Font.BOLD, 30));
         cell_info.setText("cell");
         cell_info.setOpaque(true);
@@ -80,6 +80,7 @@ public class GUI implements IObeserver{
 
     }
 
+    /** base on the grid, update statistics */
     public void updateStats(Grid grid) {
         CellCollection blueCells = new CellCollection(grid, CellStatus.BLUE);
         CellCollection redCells = new CellCollection(grid,CellStatus.RED);
@@ -89,36 +90,6 @@ public class GUI implements IObeserver{
         cell_info.setText("   B:" + blueCells.getCellNumber() + "  " + "R:" + redCells.getCellNumber());
     }
 
-    public void displayButtons(Grid grid) {
-        for(int i = 0; i < grid.getWidth(); i ++) {
-            for(int j = 0; j < grid.getHeight(); j++) {
-                if(grid.getCell(i, j).getCellStatus() == CellStatus.RED) {
-                    buttons[40 * j + i].setForeground(new Color(255,0,0));
-                    buttons[40 * j + i].setText("R");
-                }
-                else if(grid.getCell(i, j).getCellStatus() == CellStatus.BLUE) {
-                    buttons[40 * j + i].setForeground(new Color(0,0,255));
-                    buttons[40 * j + i].setText("B");
-                }
-                else {
-                    buttons[40 * j + i].setForeground(new Color(255,255,255));
-                    buttons[40 * j + i].setText("");
-                }
-            }
-        }
-    }
-
-
-    /** make all buttons unable to choose, declare the winner on top panel */
-    public void declareWinner(Player player){
-        for (JButton button : buttons) {
-            button.setEnabled(false);
-        }
-        title.setFont(new Font("Sans Serif", Font.BOLD, 60));
-        title.setText("Player " + player.getName() + " wins the game!");
-    }
-
-    /** use button id to set the corresponding cell status on grid*/
 
 
     /** make other button unable to choose (get rid of duplicate choices)*/
@@ -155,7 +126,45 @@ public class GUI implements IObeserver{
     }
 
     @Override
-    public void updateButtons(Grid grid) {
-        displayButtons(grid);
+    public void updateGrid(Grid grid) {
+        displayGrid(grid);
+    }
+
+    @Override
+    public void displayGrid(Grid grid) {
+
+        for(int i = 0; i < grid.getWidth(); i ++) {
+            for(int j = 0; j < grid.getHeight(); j++) {
+
+                JButton aButton = buttons[40 * j + i];
+                switch (grid.getCell(i, j).getCellStatus()) {
+                    case RED -> {
+                        aButton.setForeground(new Color(255, 0, 0));
+                        aButton.setText("R");
+                    }
+                    case BLUE -> {
+                        aButton.setForeground(new Color(0, 0, 255));
+                        aButton.setText("B");
+                    }
+                    default -> {
+                        aButton.setForeground(new Color(255, 255, 255));
+                        aButton.setText("");
+                    }
+                }
+
+            }
+        }
+
+    }
+
+
+    /** make all buttons unable to choose, declare the winner on top panel */
+    @Override
+    public void declareWinner(Player player) {
+        for (JButton button : buttons) {
+            button.setEnabled(false);
+        }
+        title.setFont(new Font("Sans Serif", Font.BOLD, 60));
+        title.setText("Player " + player.getName() + " wins the game!");
     }
 }

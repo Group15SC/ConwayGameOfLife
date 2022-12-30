@@ -33,9 +33,9 @@ public class Controller{
             button.addActionListener(new buttonListener());
         }
 
-        gui.displayButtons(new Grid(40, 40));
+        gui.displayGrid(new Grid(40, 40));
         HelloMessage helloMessage = new HelloMessage();
-        gui.displayButtons(game.getGrid());
+        gui.displayGrid(game.getGrid());
         String redName = helloMessage.getRedPlayerName();
         game.setPlayerName(redName, "R");
         String blueName = helloMessage.getBluePlayerName();
@@ -80,34 +80,27 @@ public class Controller{
                     if (red_turn) {
                         gui.setRedTitle();
                         if (buttons[i].getText().equals("")) {
-                            buttons[i].setForeground(new Color(255,0,0));
-                            buttons[i].setText("R");
-                            action_life = true;
-                            game.updateCell(i, CellStatus.RED);
-//                            notifyObserver();
-//                            gui.displayButtons(game.getGrid());
-                            gui.unableOtherButton(""); /** player unable to hit other dead cells*/
+                            bringToLife(buttons[i], i, "R");
                         } else if (buttons[i].getText().equals("B")) {
                             killAnEnemy(i);
-//                            notifyObserver();
-//                            gui.displayButtons(game.getGrid());
                             gui.unableOtherButton("B"); /** player unable to hit other blue cells*/
+                        } else {
+                            warnKillSelfCell();
                         }
                         if(isPlayerTurnEnd("R")) {
+                            System.out.println("here");
                             gui.updateStats(game.getGrid());
                         }
                     }
                     else {
                         gui.setBlueTitle();
                         if (buttons[i].getText().equals("")) {
-                            action_life = true;
-                            buttons[i].setForeground(new Color(0,0,255));
-                            buttons[i].setText("B");
-                            game.updateCell(i, CellStatus.BLUE);
-                            gui.unableOtherButton("");
+                            bringToLife(buttons[i], i, "B");
                         } else if (buttons[i].getText().equals("R")) {
                             killAnEnemy(i);
                             gui.unableOtherButton("R"); /** player unable to hit other red cells*/
+                        } else {
+                            warnKillSelfCell();
                         }
                         if(isPlayerTurnEnd("B")){
                             gui.updateStats(game.getGrid());
@@ -116,6 +109,20 @@ public class Controller{
                 }
             }
         }
+
+        private void bringToLife(JButton button, int buttonId, String playerColor) {
+            action_life = true;
+            if(playerColor.equals("R")){
+                button.setForeground(Color.RED);
+                game.updateCell(buttonId, CellStatus.RED);
+            } else {
+                button.setForeground(Color.BLUE);
+                game.updateCell(buttonId, CellStatus.BLUE);
+            }
+            button.setText(playerColor);
+            gui.unableOtherButton("");
+        }
+
 
         private void killAnEnemy(int buttonId) {
             action_kill = true;
@@ -159,6 +166,9 @@ public class Controller{
             }
         }
 
+        private void warnKillSelfCell(){
+            JOptionPane.showMessageDialog(null, "Nah, you are killing your own cell");
+        }
 
     }
 
