@@ -1,16 +1,17 @@
 package View;
 
 
+import Controller.Controller;
 import Model.*;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class GUI{
+public class GUI implements IObeserver{
 
     /** take care of the view */
 
-
+//    private Game game = new Game();
     /** gui var */
     private JFrame whole = new JFrame();
     private JPanel title_panel = new JPanel();
@@ -24,7 +25,9 @@ public class GUI{
 //    private final Grid grid = new Grid(40, 40);
 
 
-    public GUI() {
+    public GUI(Game game) {
+
+        game.registerObserver(this);
 
         whole.setTitle("Conway's Game of Life");
         whole.setSize(1200,1300);
@@ -153,4 +156,8 @@ public class GUI{
         return buttons;
     }
 
+    @Override
+    public void updateButtons(Grid grid) {
+        displayButtons(grid);
+    }
 }
