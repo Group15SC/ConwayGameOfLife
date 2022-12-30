@@ -18,9 +18,6 @@ public class Grid implements Iterable<Cell>{
         return grid[y][x];
     }
 
-//    public Model.Cell[][] getGrid() {
-//        return grid;
-//    }
 
     public Cell[][] fillGrid(int width, int height){
         grid = new Cell[height][width];
@@ -32,9 +29,6 @@ public class Grid implements Iterable<Cell>{
         return grid;
     }
 
-//    public void setCell(Model.Cell cell){
-//        grid[cell.getY()][cell.getX()] = cell;
-//    }
 
     public int getWidth(){
         return this.width;
@@ -50,43 +44,16 @@ public class Grid implements Iterable<Cell>{
      *  output: an array of neighbour cells*/
     public ArrayList<Cell> findNeighbour(Cell center){
         ArrayList<Cell> neighbour = new ArrayList<>();
-        int centerX = center.getX();
-        int centerY = center.getY();
-        if(centerX>0){ // can get the left cell
-            Cell left = getCell(centerX-1,  centerY);
-            neighbour.add(left);
-            if(centerY < height-1){ // can get the upper and upper left cells
-                Cell upper = getCell(centerX, centerY+1);
-                neighbour.add(upper);
-                Cell upperLeft = getCell(centerX-1,centerY+1);
-                neighbour.add(upperLeft);
-            }
-            if(centerY > 0){ // can get the lower and lower left cells
-                Cell lower = getCell(centerX, centerY-1);
-                neighbour.add(lower);
-                Cell lowerLeft = getCell(centerX-1,centerY-1);
-                neighbour.add(lowerLeft);
-            }
-
-        }
-        if(centerX < width-1){ // can get the right cell
-            Cell right = getCell(centerX+1, centerY);
-            neighbour.add(right);
-            if(centerY < height-1){ // can get the upper and upper right cell
-                Cell upper = getCell(centerX,centerY+1);
-                if(!neighbour.contains(upper)){
-                    neighbour.add(upper);
-                }
-                Cell upperRight = getCell(centerX+1,centerY+1);
-                neighbour.add(upperRight);
-            }
-            if(centerY > 0){ // can get the lower and lower right cell
-                Cell lower = getCell(centerX, centerY-1);
-                if(!neighbour.contains(lower)){
-                    neighbour.add(lower);
-                }
-                Cell lowerRight = getCell(centerX+1, centerY-1);
-                neighbour.add(lowerRight);
+        int x = center.getX();
+        int y = center.getY();
+        int[] neighbourX = {1, 1, 0, -1, -1, -1, 0, 1};
+        int[] neighbourY = {0, 1, 1, 1, 0, -1, -1, -1};
+        for(int i=0; i<8; i++){
+            try{
+                if(getCell(x+neighbourX[i], y+neighbourY[i])!=null){
+                    neighbour.add(getCell(x+neighbourX[i], y+neighbourY[i]));
+                };
+            } catch (Exception e){
             }
         }
         return neighbour;

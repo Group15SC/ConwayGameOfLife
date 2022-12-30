@@ -12,7 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Controller{
+public class Controller implements ActionListener{
 
 
     /** abstraction of the functionality necessary to change the data stored in model
@@ -31,7 +31,7 @@ public class Controller{
 //        game.setUpGame();
 
         for(JButton button: gui.getButtons()){
-            button.addActionListener(new buttonListener());
+            button.addActionListener(this);
         }
 
         gui.displayGrid(new Grid(40, 40));
@@ -71,115 +71,119 @@ public class Controller{
         }
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        JButton[] buttons = gui.getButtons();
 
-    class buttonListener implements ActionListener{
+        for(int i = 0; i < buttons.length; i++) {
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            JButton[] buttons = gui.getButtons();
-
-            for(int i = 0; i < buttons.length; i++) {
-
-                if(e.getSource() == buttons[i]) {
-                    if (red_turn) {
-                        gui.setRedTitle(game.getRedPlayer().getName());
-                        if (buttons[i].getText().equals("")) {
-                            bringToLife(buttons[i], i, "R");
-                        } else if (buttons[i].getText().equals("B")) {
-                            killAnEnemy(i);
-                            gui.disableOtherButtons("B"); /** player unable to hit other blue cells*/
-                        } else {
-                            warnKillSelfCell();
-                        }
-                        if(isPlayerTurnEnd("R")) {
-                            gui.updateStats(game.getGrid());
-                        }
-                    }
-                    else {
-                        gui.setBlueTitle(game.getBluePlayer().getName());
-                        if (buttons[i].getText().equals("")) {
-                            bringToLife(buttons[i], i, "B");
-                        } else if (buttons[i].getText().equals("R")) {
-                            killAnEnemy(i);
-                            gui.disableOtherButtons("R"); /** player unable to hit other red cells*/
-                        } else {
-                            warnKillSelfCell();
-                        }
-                        if(isPlayerTurnEnd("B")){
-                            gui.updateStats(game.getGrid());
-                        }
-                    }
-                }
-            }
-        }
-
-        private void bringToLife(JButton button, int buttonId, String playerColor) {
-            action_life = true;
-            button.setText(playerColor);
-            if(playerColor.equals("R")){
-                button.setForeground(Color.RED);
-                game.updateCell(buttonId, CellStatus.RED);
-            } else {
-                button.setForeground(Color.BLUE);
-                game.updateCell(buttonId, CellStatus.BLUE);
-            }
-            gui.disableOtherButtons("");
-        }
-
-
-        private void killAnEnemy(int buttonId) {
-            action_kill = true;
-            game.updateCell(buttonId, CellStatus.BLANK);
-        }
-
-
-        private boolean isPlayerTurnEnd(String color){
-            if(action_life && action_kill) {
-                checkWinner();
-                game.evolve();
-                action_life = false;
-                action_kill = false;
-                if(color.equals("R")){
-                    red_turn = false;
-                    gui.setBlueTitle(game.getBluePlayer().getName());
-                }
-                if(color.equals("B")){
-                    red_turn = true;
+            if(e.getSource() == buttons[i]) {
+                if (red_turn) {
                     gui.setRedTitle(game.getRedPlayer().getName());
+                    if (buttons[i].getText().equals("")) {
+                        bringToLife(buttons[i], i, "R");
+                    } else if (buttons[i].getText().equals("B")) {
+                        killAnEnemy(i);
+                        gui.disableOtherButtons("B"); /** player unable to hit other blue cells*/
+                    } else {
+                        warnKillSelfCell();
+                    }
+                    if(isPlayerTurnEnd("R")) {
+                        gui.updateStats(game.getGrid());
+                    }
                 }
-                gui.setButtonFree();
-                checkWinner();
-                return true;
-            } return false;
-        }
-
-
-        /**
-         * check if any player has win the game
-         * should be inserted after each turn
-         */
-        private void checkWinner(){
-            CellCollection red_cells = new CellCollection(game.getGrid(), CellStatus.RED);
-            CellCollection blue_cells = new CellCollection(game.getGrid(), CellStatus.BLUE);
-            if(red_cells.getCellNumber() == 0){
-                helloMessage.displayWinnerMessage(game.getBluePlayer());
-                gui.disableOtherButtons("");
-                gui.disableOtherButtons("R");
-                gui.disableOtherButtons("B");
-            }
-            else if(blue_cells.getCellNumber()==0){
-                helloMessage.displayWinnerMessage(game.getRedPlayer());
-                gui.disableOtherButtons("");
-                gui.disableOtherButtons("R");
-                gui.disableOtherButtons("B");
+                else {
+                    gui.setBlueTitle(game.getBluePlayer().getName());
+                    if (buttons[i].getText().equals("")) {
+                        bringToLife(buttons[i], i, "B");
+                    } else if (buttons[i].getText().equals("R")) {
+                        killAnEnemy(i);
+                        gui.disableOtherButtons("R"); /** player unable to hit other red cells*/
+                    } else {
+                        warnKillSelfCell();
+                    }
+                    if(isPlayerTurnEnd("B")){
+                        gui.updateStats(game.getGrid());
+                    }
+                }
             }
         }
+    }
 
-        private void warnKillSelfCell(){
-            JOptionPane.showMessageDialog(null, "Nah, you are killing your own cell");
+
+//    class buttonListener implements ActionListener{
+//
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//
+//
+//        }
+//    }
+
+    private void bringToLife(JButton button, int buttonId, String playerColor) {
+        action_life = true;
+        button.setText(playerColor);
+        if(playerColor.equals("R")){
+            button.setForeground(Color.RED);
+            game.updateCell(buttonId, CellStatus.RED);
+        } else {
+            button.setForeground(Color.BLUE);
+            game.updateCell(buttonId, CellStatus.BLUE);
         }
+        gui.disableOtherButtons("");
+    }
 
+    private void killAnEnemy(int buttonId) {
+        action_kill = true;
+        game.updateCell(buttonId, CellStatus.BLANK);
+    }
+
+
+    private boolean isPlayerTurnEnd(String color){
+        if(action_life && action_kill) {
+            checkWinner();
+            game.evolve();
+            action_life = false;
+            action_kill = false;
+            if(color.equals("R")){
+                red_turn = false;
+                gui.setBlueTitle(game.getBluePlayer().getName());
+            }
+            if(color.equals("B")){
+                red_turn = true;
+                gui.setRedTitle(game.getRedPlayer().getName());
+            }
+            gui.setButtonFree();
+            checkWinner();
+            return true;
+        } return false;
+    }
+
+
+    /**
+     * check if any player has win the game
+     * should be inserted after each turn
+     */
+    private void checkWinner(){
+        CellCollection red_cells = new CellCollection(game.getGrid(), CellStatus.RED);
+        CellCollection blue_cells = new CellCollection(game.getGrid(), CellStatus.BLUE);
+        if(red_cells.getCellNumber() == 0){
+            helloMessage.displayWinnerMessage(game.getBluePlayer());
+            gui.disableOtherButtons("");
+            gui.disableOtherButtons("R");
+            gui.disableOtherButtons("B");
+        }
+        else if(blue_cells.getCellNumber()==0){
+            helloMessage.displayWinnerMessage(game.getRedPlayer());
+            gui.disableOtherButtons("");
+            gui.disableOtherButtons("R");
+            gui.disableOtherButtons("B");
+        }
+    }
+
+    private void warnKillSelfCell(){
+        JOptionPane.showMessageDialog(null, "Nah, you are killing your own cell",
+                                        "Trying to kill your self!", JOptionPane.DEFAULT_OPTION);
 
     }
 
