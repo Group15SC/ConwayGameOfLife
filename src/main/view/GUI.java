@@ -90,7 +90,7 @@ public class GUI implements IObeserver, UI{
 
 
     /** make other button unable to choose (get rid of duplicate choices)*/
-    public void unableOtherButton(String color){
+    public void disableOtherButtons(String color){
 
         for(JButton button: buttons){
             if(button.getText().equals(color)){
@@ -156,12 +156,4 @@ public class GUI implements IObeserver, UI{
 
 
     /** make all buttons unable to choose, declare the winner on top panel */
-    @Override
-    public void declareWinner(Player player) {
-        for (JButton button : buttons) {
-            button.setEnabled(false);
-        }
-        title.setFont(new Font("Sans Serif", Font.BOLD, 60));
-        title.setText("Player " + player.getName() + " wins the game!");
-    }
 }

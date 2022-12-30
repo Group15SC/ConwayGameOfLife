@@ -1,3 +1,5 @@
+package main;
+
 import main.controller.Controller;
 import main.model.Game;
 import main.view.GUI;

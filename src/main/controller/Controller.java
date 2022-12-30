@@ -84,7 +84,7 @@ public class Controller{
                             bringToLife(buttons[i], i, "R");
                         } else if (buttons[i].getText().equals("B")) {
                             killAnEnemy(i);
-                            gui.unableOtherButton("B"); /** player unable to hit other blue cells*/
+                            gui.disableOtherButtons("B"); /** player unable to hit other blue cells*/
                         } else {
                             warnKillSelfCell();
                         }
@@ -99,7 +99,7 @@ public class Controller{
                             bringToLife(buttons[i], i, "B");
                         } else if (buttons[i].getText().equals("R")) {
                             killAnEnemy(i);
-                            gui.unableOtherButton("R"); /** player unable to hit other red cells*/
+                            gui.disableOtherButtons("R"); /** player unable to hit other red cells*/
                         } else {
                             warnKillSelfCell();
                         }
@@ -121,7 +121,7 @@ public class Controller{
                 game.updateCell(buttonId, CellStatus.BLUE);
             }
             button.setText(playerColor);
-            gui.unableOtherButton("");
+            gui.disableOtherButtons("");
         }
 
 
@@ -133,7 +133,7 @@ public class Controller{
 
         private boolean isPlayerTurnEnd(String color){
             if(action_life && action_kill) {
-                System.out.println(color+"'s Turn Ends");
+                checkWinner();
                 game.evolve();
                 action_life = false;
                 action_kill = false;
@@ -160,10 +160,16 @@ public class Controller{
             CellCollection red_cells = new CellCollection(game.getGrid(), CellStatus.RED);
             CellCollection blue_cells = new CellCollection(game.getGrid(), CellStatus.BLUE);
             if(red_cells.getCellNumber() == 0){
-                helloMessage.declareWinner(game.getBluePlayer());
+                helloMessage.displayWinnerMessage(game.getBluePlayer());
+                gui.disableOtherButtons("");
+                gui.disableOtherButtons("R");
+                gui.disableOtherButtons("B");
             }
             else if(blue_cells.getCellNumber()==0){
-                helloMessage.declareWinner(game.getRedPlayer());
+                helloMessage.displayWinnerMessage(game.getRedPlayer());
+                gui.disableOtherButtons("");
+                gui.disableOtherButtons("R");
+                gui.disableOtherButtons("B");
             }
         }
 
