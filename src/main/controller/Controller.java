@@ -22,6 +22,7 @@ public class Controller{
     private final GUI gui;
     private boolean red_turn;
     private boolean action_life, action_kill;
+    private HelloMessage helloMessage;
 
     public Controller(Game game, GUI gui){
         this.game = game;
@@ -34,7 +35,7 @@ public class Controller{
         }
 
         gui.displayGrid(new Grid(40, 40));
-        HelloMessage helloMessage = new HelloMessage();
+        helloMessage = new HelloMessage();
         gui.displayGrid(game.getGrid());
         String redName = helloMessage.getRedPlayerName();
         game.setPlayerName(redName, "R");
@@ -159,10 +160,10 @@ public class Controller{
             CellCollection red_cells = new CellCollection(game.getGrid(), CellStatus.RED);
             CellCollection blue_cells = new CellCollection(game.getGrid(), CellStatus.BLUE);
             if(red_cells.getCellNumber() == 0){
-                gui.declareWinner(game.getBluePlayer());
+                helloMessage.declareWinner(game.getBluePlayer());
             }
             else if(blue_cells.getCellNumber()==0){
-                gui.declareWinner(game.getRedPlayer());
+                helloMessage.declareWinner(game.getRedPlayer());
             }
         }
 

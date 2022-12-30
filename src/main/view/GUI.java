@@ -9,7 +9,6 @@ public class GUI implements IObeserver, UI{
 
     /** take care of the view */
 
-//    private Game game = new Game();
     /** gui var */
     private JFrame whole = new JFrame();
     private JPanel title_panel = new JPanel();
@@ -20,7 +19,6 @@ public class GUI implements IObeserver, UI{
     private final JButton[] buttons = new JButton[1600];
 
     /** component declaration */
-//    private final Grid grid = new Grid(40, 40);
 
 
     public GUI(Game game) {
@@ -74,7 +72,6 @@ public class GUI implements IObeserver, UI{
             buttons[i] = new JButton("");
             buttons[i].setBackground(Color.WHITE);
             down_panel.add(buttons[i]);
-//            buttons[i].addActionListener(this);
             buttons[i].setFont(new Font("Sans Serif", Font.BOLD, 25));
         }
 
@@ -86,7 +83,7 @@ public class GUI implements IObeserver, UI{
         CellCollection redCells = new CellCollection(grid,CellStatus.RED);
         generation_info.setVisible(true);
         cell_info.setVisible(true);
-        generation_info.setText("Generation:" + Generation.getNumberOfGen() + "   ");
+        generation_info.setText("Generation:" + Generation.getNumberOfGen() + "  ");
         cell_info.setText("   B:" + blueCells.getCellNumber() + "  " + "R:" + redCells.getCellNumber());
     }
 

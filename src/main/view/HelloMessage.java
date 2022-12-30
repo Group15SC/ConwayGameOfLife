@@ -1,5 +1,7 @@
 package main.view;
 
+import main.model.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
@@ -14,16 +16,16 @@ public class HelloMessage {
     public HelloMessage(){
         ImageIcon icon = new ImageIcon("logo.png");
         Image image = icon.getImage();
-        Image newimage = image.getScaledInstance(160,160, java.awt.Image.SCALE_SMOOTH);
+        Image newimage = image.getScaledInstance(150,150, java.awt.Image.SCALE_SMOOTH);
         ImageIcon newicon = new ImageIcon(newimage);
         JPanel panel = new JPanel();
         JLabel logo = new JLabel(newicon);
         JLabel text = new JLabel("<html>Welcome to Conway's Game of Life!<br/>This is a 2 player version game, so please enter the names of two players one by one.<br/>Please be aware that we only accept names start with character :)<html>");
-        text.setFont(new Font("Sans Serif", Font.BOLD, 20));
+        text.setFont(new Font("Sans Serif", Font.BOLD, 15));
         panel.add(logo);
         panel.add(text,BorderLayout.EAST);
-        logo.setPreferredSize(new Dimension(180,180));
-        text.setPreferredSize(new Dimension(600,180));
+        logo.setPreferredSize(new Dimension(150,150));
+        text.setPreferredSize(new Dimension(700,150));
         JOptionPane.showMessageDialog(null, panel, "Conway's Game of Life", JOptionPane.DEFAULT_OPTION);
 
         this.player1_name = handleName(1);
@@ -116,6 +118,10 @@ public class HelloMessage {
                     "Please enter a different one.");
         }
         return name;
+    }
+
+    public void declareWinner (Player winner) {
+        JOptionPane.showMessageDialog(null, "Congratulations! " + winner.getName() + " wins the Game!");
     }
 
 }
