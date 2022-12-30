@@ -1,6 +1,6 @@
-import main.Controller.Controller;
-import main.Model.Game;
-import main.View.GUI;
+import main.controller.Controller;
+import main.model.Game;
+import main.view.GUI;
 
 public class Main {
     public static void main(String[] args) {

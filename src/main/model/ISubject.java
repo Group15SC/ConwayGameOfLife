@@ -1,6 +1,6 @@
-package main.Model;
+package main.model;
 
-import main.View.IObeserver;
+import main.view.IObeserver;
 
 public interface ISubject {
 

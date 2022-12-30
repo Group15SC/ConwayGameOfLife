@@ -1,6 +1,6 @@
-package main.View;
+package main.view;
 
-import main.Model.Grid;
+import main.model.Grid;
 
 public interface IObeserver {
 

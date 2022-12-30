@@ -1,12 +1,16 @@
-package main.Model;
+package main.model;
 
-import main.View.IObeserver;
+import main.model.initialPattern.Boat;
+import main.model.initialPattern.InitialPattern;
+import main.model.initialPattern.Ship;
+import main.model.initialPattern.Square;
+import main.view.IObeserver;
 
 import java.util.ArrayList;
 
 public class Game implements ISubject{
 
-    /** take care of data store and computation*/
+    /** take care of data store and computation - model*/
 
     ArrayList<IObeserver> observers = new ArrayList<>();
 
@@ -18,17 +22,26 @@ public class Game implements ISubject{
     private Generation generation;
 
     public Game(){
-        grid.getCell(41 % 40, 41 / 40).setCellStatus(CellStatus.RED);
-        grid.getCell(42 % 40, 42 / 40).setCellStatus(CellStatus.RED);
-        grid.getCell(43 % 40, 43 / 40).setCellStatus(CellStatus.RED);
 
-        grid.getCell(81 % 40, 81 / 40).setCellStatus(CellStatus.BLUE);
-        grid.getCell(82 % 40, 82 / 40).setCellStatus(CellStatus.BLUE);
-        grid.getCell(83 % 40, 83 / 40).setCellStatus(CellStatus.BLUE);
+        /** set initial pattern*/
+
+        setInitialPattern();
 
         generation = new Generation(grid);
         player_red = new Player("", "R");
         player_blue = new Player("", "B");
+    }
+
+    private void setInitialPattern() {
+        InitialPattern[] patterns = {new Boat(), new Ship(), new Square()};
+        for(InitialPattern pattern: patterns){
+            for(Cell cell: pattern.getRedPattern()){
+                grid.getCell(cell.getX(), cell.getY()).setCellStatus(CellStatus.RED);
+            }
+            for(Cell cell: pattern.getBluePattern()){
+                grid.getCell(cell.getX(), cell.getY()).setCellStatus(CellStatus.BLUE);
+            }
+        }
     }
 
     public void setPlayerName(String name, String color){

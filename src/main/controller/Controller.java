@@ -1,11 +1,11 @@
-package main.Controller;
+package main.controller;
 
-import main.Model.CellCollection;
-import main.Model.CellStatus;
-import main.Model.Game;
-import main.Model.Grid;
-import main.View.GUI;
-import main.View.HelloMessage;
+import main.model.CellCollection;
+import main.model.CellStatus;
+import main.model.Game;
+import main.model.Grid;
+import main.view.GUI;
+import main.view.HelloMessage;
 
 import javax.swing.*;
 import java.awt.*;
