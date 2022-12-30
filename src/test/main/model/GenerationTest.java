@@ -1,5 +1,7 @@
 package main.model;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -39,5 +41,11 @@ class GenerationTest {
         assertEquals(CellStatus.RED, testGrid.getCell(2, 1).getCellStatus());
         assertEquals(2, Generation.getNumberOfGen());
     }
+
+    @AfterEach
+    void tearDown(){
+        aGen.setNumberOfGen(0);
+    }
+
 
 }

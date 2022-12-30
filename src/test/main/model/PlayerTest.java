@@ -24,4 +24,11 @@ class PlayerTest {
         assertEquals(CellStatus.BLUE, testPlayer2.getColor());
     }
 
+    @Test
+    void testInvalidColor(){
+        Player testPlayer3 = new Player("testPlayer3", "W");
+        assertNull(testPlayer3.getColor());
+    }
+
+
 }

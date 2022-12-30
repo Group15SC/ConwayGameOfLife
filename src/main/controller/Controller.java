@@ -42,30 +42,34 @@ public class Controller{
         String blueName = helloMessage.getBluePlayerName();
         game.setPlayerName(blueName, "B");
         decideFirstTurn(redName, blueName);
+        gui.updateStats(game.getGrid());
     }
 
     /** check which who owns the first turn*/
     private void decideFirstTurn(String redName, String blueName){
 
-        try{
-            Thread.sleep(1000);
-        } catch (InterruptedException e){
-            e.printStackTrace();
-        }
+        setTimeLag(800);
 
         // red first
         if(blueName.compareTo(redName)>0){
             red_turn = true;
-            gui.setRedTitle();
+            gui.setRedTitle(redName);
         }
         else {
             red_turn = false;
-            gui.setBlueTitle();
+            gui.setBlueTitle(blueName);
         }
 
     }
 
 
+    private void setTimeLag(int lag){
+        try{
+            Thread.sleep(lag);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
 
 
     class buttonListener implements ActionListener{
@@ -79,7 +83,7 @@ public class Controller{
 
                 if(e.getSource() == buttons[i]) {
                     if (red_turn) {
-                        gui.setRedTitle();
+                        gui.setRedTitle(game.getRedPlayer().getName());
                         if (buttons[i].getText().equals("")) {
                             bringToLife(buttons[i], i, "R");
                         } else if (buttons[i].getText().equals("B")) {
@@ -89,12 +93,11 @@ public class Controller{
                             warnKillSelfCell();
                         }
                         if(isPlayerTurnEnd("R")) {
-                            System.out.println("here");
                             gui.updateStats(game.getGrid());
                         }
                     }
                     else {
-                        gui.setBlueTitle();
+                        gui.setBlueTitle(game.getBluePlayer().getName());
                         if (buttons[i].getText().equals("")) {
                             bringToLife(buttons[i], i, "B");
                         } else if (buttons[i].getText().equals("R")) {
@@ -113,6 +116,7 @@ public class Controller{
 
         private void bringToLife(JButton button, int buttonId, String playerColor) {
             action_life = true;
+            button.setText(playerColor);
             if(playerColor.equals("R")){
                 button.setForeground(Color.RED);
                 game.updateCell(buttonId, CellStatus.RED);
@@ -120,7 +124,6 @@ public class Controller{
                 button.setForeground(Color.BLUE);
                 game.updateCell(buttonId, CellStatus.BLUE);
             }
-            button.setText(playerColor);
             gui.disableOtherButtons("");
         }
 
@@ -139,11 +142,11 @@ public class Controller{
                 action_kill = false;
                 if(color.equals("R")){
                     red_turn = false;
-                    gui.setBlueTitle();
+                    gui.setBlueTitle(game.getBluePlayer().getName());
                 }
                 if(color.equals("B")){
                     red_turn = true;
-                    gui.setRedTitle();
+                    gui.setRedTitle(game.getRedPlayer().getName());
                 }
                 gui.setButtonFree();
                 checkWinner();
@@ -176,6 +179,7 @@ public class Controller{
         private void warnKillSelfCell(){
             JOptionPane.showMessageDialog(null, "Nah, you are killing your own cell");
         }
+
 
     }
 

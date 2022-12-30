@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GridTest {
 
     Grid testGrid = new Grid(5,5);
+
     @BeforeEach
     void setUP(){
         testGrid.getCell(0,0).setCellStatus(CellStatus.RED);
@@ -99,7 +100,7 @@ class GridTest {
             expected.add(i % 5); // repeat 0-4: 0,1,2,3,4,0,1,2,3,4,...
         }
         ArrayList<Integer> actual = new ArrayList<>();
-        for(Cell cell:testGrid){
+        for(Cell cell: testGrid){
             actual.add(cell.getX());
         }
         assertEquals(expected, actual);

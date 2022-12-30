@@ -59,4 +59,10 @@ public class Generation {
         int alive = grid.getAliveNeighbours(neighbour);
         return alive!=2 && alive!=3;
     }
+
+    // prepare for test suites
+    protected void setNumberOfGen(int i){
+        numberOfGen = i;
+    }
+
 }

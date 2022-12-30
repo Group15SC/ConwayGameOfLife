@@ -26,13 +26,13 @@ public class HelloMessage {
 
         this.player1_name = handleName(1);
         handleColor();
-        showMessage("Thank you " + player1_name +
-                ", you are the " + colorConverter(player1_color) + " side");
+        showMessage("<html>Thank you " + player1_name +
+                ", you are the " + colorConverter(player1_color) + " side<html>");
 
         String anotherName = handleName(2);
         this.player2_name = handleSameName(anotherName);
-        showMessage("Thank you " + player2_name +
-                ", you are the " + colorConverter(player2_color) + " side");
+        showMessage("<html>Thank you " + player2_name +
+                ", you have been assigned " + colorConverter(player2_color) + " side<html>");
 
         showMessage("Game starts now!");
     }
@@ -43,11 +43,11 @@ public class HelloMessage {
         String welcome = textMessage;
         JLabel label = new JLabel(welcome);
         label.setHorizontalAlignment(JLabel.CENTER);
-        label.setFont(new Font("Sans Serif", Font.BOLD, 15));
+        label.setFont(new Font("Sans Serif", Font.BOLD, 18));
         panel.add(logo);
         panel.add(label,BorderLayout.EAST);
-        logo.setPreferredSize(new Dimension(150,300));
-        label.setPreferredSize(new Dimension(500,300));
+        logo.setPreferredSize(new Dimension(150,200));
+        label.setPreferredSize(new Dimension(400,200));
         JOptionPane.showMessageDialog(null, panel, "Conway's Game of Life", JOptionPane.DEFAULT_OPTION);
     }
 
@@ -114,8 +114,8 @@ public class HelloMessage {
         panel.add(logo,BorderLayout.CENTER);
         panel.add(label,BorderLayout.EAST);
 
-        logo.setPreferredSize(new Dimension(150,150));
-        label.setPreferredSize(new Dimension(700,150));
+        logo.setPreferredSize(new Dimension(150,200));
+        label.setPreferredSize(new Dimension(400,200));
         String name = JOptionPane.showInputDialog(null, panel,"Input", JOptionPane.DEFAULT_OPTION);
         return name;
     }
@@ -149,7 +149,8 @@ public class HelloMessage {
     }
 
     public void displayWinnerMessage(Player winner) {
-        showMessage("Congratulations! " + winner.getName() + " wins the Game!");
+        showMessage("<html>Congratulations! " + winner.getName() + " wins the Game!<html>");
     }
 
 }
+
