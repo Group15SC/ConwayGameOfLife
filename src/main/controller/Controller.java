@@ -4,8 +4,9 @@ import main.model.CellCollection;
 import main.model.CellStatus;
 import main.model.Game;
 import main.model.Grid;
-import main.view.GUI;
 import main.view.HelloMessage;
+import main.view.IMessage;
+import main.view.IUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,30 +20,30 @@ public class Controller implements ActionListener{
      *  build data-view connection */
 
     private final Game game;
-    private final GUI gui;
+    private final IUI ui;
     private boolean red_turn;
     private boolean action_life, action_kill;
-    private HelloMessage helloMessage;
+    private IMessage helloMessage;
 
-    public Controller(Game game, GUI gui){
+    public Controller(Game game, IUI ui, IMessage helloMessage){
         this.game = game;
-        this.gui = gui;
-
-//        game.setUpGame();
-
-        for(JButton button: gui.getButtons()){
+        this.ui = ui;
+        for(JButton button: ui.getButtons()){
             button.addActionListener(this);
         }
+    }
 
-        gui.displayGrid(new Grid(40, 40));
+    public void setUpController(IUI ui){
+        ui.displayGrid(new Grid(40, 40));
         helloMessage = new HelloMessage();
-        gui.displayGrid(game.getGrid());
+        helloMessage.setUpMessage();
+        ui.displayGrid(game.getGrid());
         String redName = helloMessage.getRedPlayerName();
         game.setPlayerName(redName, "R");
         String blueName = helloMessage.getBluePlayerName();
         game.setPlayerName(blueName, "B");
         decideFirstTurn(redName, blueName);
-        gui.updateStats(game.getGrid());
+        ui.updateStats(game.getGrid());
     }
 
     /** check which who owns the first turn*/
@@ -53,11 +54,11 @@ public class Controller implements ActionListener{
         // red first
         if(blueName.compareTo(redName)>0){
             red_turn = true;
-            gui.setRedTitle(redName);
+            ui.setRedTitle(redName);
         }
         else {
             red_turn = false;
-            gui.setBlueTitle(blueName);
+            ui.setBlueTitle(blueName);
         }
 
     }
@@ -73,37 +74,37 @@ public class Controller implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JButton[] buttons = gui.getButtons();
+        JButton[] buttons = ui.getButtons();
 
         for(int i = 0; i < buttons.length; i++) {
 
             if(e.getSource() == buttons[i]) {
                 if (red_turn) {
-                    gui.setRedTitle(game.getRedPlayer().getName());
+                    ui.setRedTitle(game.getRedPlayer().getName());
                     if (buttons[i].getText().equals("")) {
                         bringToLife(buttons[i], i, "R");
                     } else if (buttons[i].getText().equals("B")) {
                         killAnEnemy(i);
-                        gui.disableOtherButtons("B"); /** player unable to hit other blue cells*/
+                        ui.disableOtherButtons("B"); /** player unable to hit other blue cells*/
                     } else {
                         warnKillSelfCell();
                     }
                     if(isPlayerTurnEnd("R")) {
-                        gui.updateStats(game.getGrid());
+                        ui.updateStats(game.getGrid());
                     }
                 }
                 else {
-                    gui.setBlueTitle(game.getBluePlayer().getName());
+                    ui.setBlueTitle(game.getBluePlayer().getName());
                     if (buttons[i].getText().equals("")) {
                         bringToLife(buttons[i], i, "B");
                     } else if (buttons[i].getText().equals("R")) {
                         killAnEnemy(i);
-                        gui.disableOtherButtons("R"); /** player unable to hit other red cells*/
+                        ui.disableOtherButtons("R"); /** player unable to hit other red cells*/
                     } else {
                         warnKillSelfCell();
                     }
                     if(isPlayerTurnEnd("B")){
-                        gui.updateStats(game.getGrid());
+                        ui.updateStats(game.getGrid());
                     }
                 }
             }
@@ -130,7 +131,7 @@ public class Controller implements ActionListener{
             button.setForeground(Color.BLUE);
             game.updateCell(buttonId, CellStatus.BLUE);
         }
-        gui.disableOtherButtons("");
+        ui.disableOtherButtons("");
     }
 
     private void killAnEnemy(int buttonId) {
@@ -147,13 +148,13 @@ public class Controller implements ActionListener{
             action_kill = false;
             if(color.equals("R")){
                 red_turn = false;
-                gui.setBlueTitle(game.getBluePlayer().getName());
+                ui.setBlueTitle(game.getBluePlayer().getName());
             }
             if(color.equals("B")){
                 red_turn = true;
-                gui.setRedTitle(game.getRedPlayer().getName());
+                ui.setRedTitle(game.getRedPlayer().getName());
             }
-            gui.setButtonFree();
+            ui.setButtonFree();
             checkWinner();
             return true;
         } return false;
@@ -168,16 +169,16 @@ public class Controller implements ActionListener{
         CellCollection red_cells = new CellCollection(game.getGrid(), CellStatus.RED);
         CellCollection blue_cells = new CellCollection(game.getGrid(), CellStatus.BLUE);
         if(red_cells.getCellNumber() == 0){
-            helloMessage.displayWinnerMessage(game.getBluePlayer());
-            gui.disableOtherButtons("");
-            gui.disableOtherButtons("R");
-            gui.disableOtherButtons("B");
+            helloMessage.displayWinnerMessage(game.getBluePlayer().getName());
+            ui.disableOtherButtons("");
+            ui.disableOtherButtons("R");
+            ui.disableOtherButtons("B");
         }
         else if(blue_cells.getCellNumber()==0){
-            helloMessage.displayWinnerMessage(game.getRedPlayer());
-            gui.disableOtherButtons("");
-            gui.disableOtherButtons("R");
-            gui.disableOtherButtons("B");
+            helloMessage.displayWinnerMessage(game.getRedPlayer().getName());
+            ui.disableOtherButtons("");
+            ui.disableOtherButtons("R");
+            ui.disableOtherButtons("B");
         }
     }
 

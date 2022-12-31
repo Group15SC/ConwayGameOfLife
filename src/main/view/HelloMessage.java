@@ -6,20 +6,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-public class HelloMessage {
+public class HelloMessage implements IMessage{
 
-    private final String player1_name;
-    private final String player2_name;
+    private String player1_name;
+    private String player2_name;
     private String player1_color;
     private String player2_color;
-    ImageIcon icon;
-    Image newimage;
-    ImageIcon newIcon;
+    private ImageIcon icon;
+    private Image newImage;
+    private ImageIcon newIcon;
     public HelloMessage(){
+    }
+
+    @Override
+    public void setUpMessage(){
         icon = new ImageIcon("logo.png");
         Image image = icon.getImage();
-        newimage= image.getScaledInstance(150,150, java.awt.Image.SCALE_SMOOTH);
-        newIcon = new ImageIcon(newimage);
+        newImage = image.getScaledInstance(150,150, java.awt.Image.SCALE_SMOOTH);
+        newIcon = new ImageIcon(newImage);
         showMessage("<html>Welcome to Conway's Game of Life!<br/>This is a 2 player version game, " +
                 "so please enter the names of two players one by one.<br/>" +
                 "Please be aware that we only accept names start with character :)<html>");
@@ -37,6 +41,7 @@ public class HelloMessage {
         showMessage("Game starts now!");
     }
 
+
     private void showMessage(String textMessage) {
         JPanel panel = new JPanel();
         JLabel logo = new JLabel(newIcon);
@@ -53,7 +58,7 @@ public class HelloMessage {
 
     /** convert R to red, B to blue
      *  for display purpose only */
-    private String colorConverter(String shortcut){
+    public String colorConverter(String shortcut){
         if(Objects.equals(shortcut, "R")){
             return "red";
         }
@@ -63,8 +68,9 @@ public class HelloMessage {
         return null;
     }
 
+    @Override
     /** get player's chosen color, handle invalid input*/
-    private void handleColor() {
+    public void handleColor() {
         String color = getInput("<html>Hello " + player1_name + "!<br/>" +
                 "Please choose a color between red and blue.<br/>" +
                 "Enter R for red, enter B for blue.<html>");
@@ -85,8 +91,9 @@ public class HelloMessage {
         }
     }
 
+    @Override
     /** get player i's name, handle invalid input*/
-    private String handleName(int i) {
+    public String handleName(int playerId) {
         String name = getInput("<html>Welcome to Conway's Game of Life!<br/>This is a 2 player version game, " +
                 "so please enter the names of two players one by one.<br/>" +
                 "Please be aware that we only accept names start with character :)<html>");
@@ -103,7 +110,8 @@ public class HelloMessage {
 
     }
 
-    private String getInput(String text) {
+    @Override
+    public String getInput(String text) {
         JPanel panel = new JPanel();
         JLabel logo = new JLabel(newIcon);
         String askName = text;
@@ -120,6 +128,7 @@ public class HelloMessage {
         return name;
     }
 
+    @Override
     /** get player's name of red side*/
     public String getRedPlayerName(){
 
@@ -130,6 +139,7 @@ public class HelloMessage {
 
     }
 
+    @Override
     /** get player's name of blue side*/
     public String getBluePlayerName(){
 
@@ -140,16 +150,17 @@ public class HelloMessage {
 
     }
 
-    private String handleSameName(String name){
+    @Override
+    public String handleSameName(String name){
         while(name.equals(player1_name)){
             name = getInput("<html>Sorry, the name is taken by other player.<br/>" +
                     "Please enter a different one.<html>");
         }
         return name;
     }
-
-    public void displayWinnerMessage(Player winner) {
-        showMessage("<html>Congratulations! " + winner.getName() + " wins the Game!<html>");
+    @Override
+    public void displayWinnerMessage(String winnerName) {
+        showMessage("<html>Congratulations! " + winnerName + " wins the Game!<html>");
     }
 
 }

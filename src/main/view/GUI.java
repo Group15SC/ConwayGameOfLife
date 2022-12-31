@@ -5,7 +5,7 @@ import main.model.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class GUI implements IObeserver, UI{
+public class GUI implements IObeserver, IUI {
 
     /** take care of the view */
 
@@ -93,6 +93,7 @@ public class GUI implements IObeserver, UI{
     }
 
     /** base on the grid, update statistics */
+    @Override
     public void updateStats(Grid grid) {
         CellCollection blueCells = new CellCollection(grid, CellStatus.BLUE);
         CellCollection redCells = new CellCollection(grid,CellStatus.RED);
@@ -105,6 +106,7 @@ public class GUI implements IObeserver, UI{
 
 
     /** make other button unable to choose (get rid of duplicate choices)*/
+    @Override
     public void disableOtherButtons(String color){
 
         for(JButton button: buttons){
@@ -116,6 +118,7 @@ public class GUI implements IObeserver, UI{
     }
 
     /** make buttons free to choose again */
+    @Override
     public void setButtonFree(){
 
         for(JButton button: buttons){
@@ -125,16 +128,19 @@ public class GUI implements IObeserver, UI{
     }
 
     /** set title to Red player*/
+    @Override
     public void setRedTitle(String redName){
         title.setText(redName+"'s Turn");
         title.setForeground(new Color(255, 0,0));
     }
 
+    @Override
     public void setBlueTitle(String blueName){
         title.setText(blueName+"'s Turn");
         title.setForeground(new Color(0,0,255));
     }
 
+    @Override
     public JButton[] getButtons(){
         return buttons;
     }
@@ -172,10 +178,12 @@ public class GUI implements IObeserver, UI{
         }
     }
 
+    @Override
     public JLabel getGeneration_info() {
         return generation_info;
     }
 
+    @Override
     public JLabel getCell_info() {
         return cell_info;
     }
