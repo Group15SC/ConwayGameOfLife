@@ -1,4 +1,4 @@
-package main.mockClasses;
+package main.controller.mockClasses;
 
 import main.model.Grid;
 import main.view.IUI;
@@ -10,17 +10,9 @@ public class MockUI implements IUI {
     private final JButton[] buttons = new JButton[1600];
 
     public MockUI(){
-
-//        JFrame frame = new JFrame();
-//        JPanel buttonPanel = new JPanel();
-
         for(int i=0; i<buttons.length; i++){
             buttons[i] = new JButton();
-//            buttonPanel.add(buttons[i]);
         }
-
-//        frame.add(buttonPanel);
-
     }
 
 

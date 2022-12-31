@@ -21,6 +21,15 @@ public abstract class InitialPattern{
         this.mirroredPattern = mirror(gridWidth);
     }
 
+
+    private ArrayList<Cell> generatePattern(int startX, int startY) {
+        pattern = new ArrayList<>();
+        for(int i=0; i<xPattern.length; i++){
+            pattern.add(new Cell(startX+xPattern[i],startY+yPattern[i], CellStatus.RED));
+        }
+        return pattern;
+    }
+
     private ArrayList<Cell> mirror(int gridWidth) {
         mirroredPattern = new ArrayList<>();
         for(Cell cell: pattern){
@@ -28,17 +37,6 @@ public abstract class InitialPattern{
             mirroredPattern.add(new Cell(targetX, cell.getY(), CellStatus.BLUE));
         }
         return mirroredPattern;
-    }
-
-
-    private ArrayList<Cell> generatePattern(int startX, int startY) {
-        pattern = new ArrayList<>();
-        for(int x: xPattern){
-            for(int y: yPattern){
-                pattern.add(new Cell(startX+x, startY+y, CellStatus.RED));
-            }
-        }
-        return pattern;
     }
 
     public ArrayList<Cell> getRedPattern(){

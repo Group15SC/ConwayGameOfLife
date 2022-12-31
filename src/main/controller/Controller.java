@@ -1,9 +1,6 @@
 package main.controller;
 
-import main.model.CellCollection;
-import main.model.CellStatus;
-import main.model.Game;
-import main.model.Grid;
+import main.model.*;
 import main.view.HelloMessage;
 import main.view.IMessage;
 import main.view.IUI;
@@ -24,8 +21,9 @@ public class Controller implements ActionListener{
     private boolean red_turn;
     private boolean action_life, action_kill;
     private IMessage helloMessage;
+    private Player winner;
 
-    public Controller(Game game, IUI ui, IMessage helloMessage){
+    public Controller(Game game, IUI ui){
         this.game = game;
         this.ui = ui;
         for(JButton button: ui.getButtons()){
@@ -33,15 +31,20 @@ public class Controller implements ActionListener{
         }
     }
 
-    public void setUpController(IUI ui){
-        ui.displayGrid(new Grid(40, 40));
-        helloMessage = new HelloMessage();
+    public void setUpController(IMessage helloMessage){
+        this.helloMessage = helloMessage;
+        ui.displayGrid(new Grid(40,40));
+
         helloMessage.setUpMessage();
+
+//        game.setInitialPattern();
         ui.displayGrid(game.getGrid());
+
         String redName = helloMessage.getRedPlayerName();
         game.setPlayerName(redName, "R");
         String blueName = helloMessage.getBluePlayerName();
         game.setPlayerName(blueName, "B");
+
         decideFirstTurn(redName, blueName);
         ui.updateStats(game.getGrid());
     }
@@ -112,15 +115,6 @@ public class Controller implements ActionListener{
     }
 
 
-//    class buttonListener implements ActionListener{
-//
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//
-//
-//        }
-//    }
-
     private void bringToLife(JButton button, int buttonId, String playerColor) {
         action_life = true;
         button.setText(playerColor);
@@ -142,22 +136,25 @@ public class Controller implements ActionListener{
 
     private boolean isPlayerTurnEnd(String color){
         if(action_life && action_kill) {
-            checkWinner();
-            game.evolve();
-            action_life = false;
-            action_kill = false;
-            if(color.equals("R")){
-                red_turn = false;
-                ui.setBlueTitle(game.getBluePlayer().getName());
+            if(!checkWinner()){
+                game.evolve();
+                if(!checkWinner()){
+                    action_life = false;
+                    action_kill = false;
+                    if(color.equals("R")){
+                        red_turn = false;
+                        ui.setBlueTitle(game.getBluePlayer().getName());
+                    }
+                    if(color.equals("B")){
+                        red_turn = true;
+                        ui.setRedTitle(game.getRedPlayer().getName());
+                    }
+                    ui.setButtonFree();
+                }
             }
-            if(color.equals("B")){
-                red_turn = true;
-                ui.setRedTitle(game.getRedPlayer().getName());
-            }
-            ui.setButtonFree();
-            checkWinner();
             return true;
-        } return false;
+        }
+        return false;
     }
 
 
@@ -165,28 +162,47 @@ public class Controller implements ActionListener{
      * check if any player has win the game
      * should be inserted after each turn
      */
-    private void checkWinner(){
+    private boolean checkWinner(){
         CellCollection red_cells = new CellCollection(game.getGrid(), CellStatus.RED);
         CellCollection blue_cells = new CellCollection(game.getGrid(), CellStatus.BLUE);
         if(red_cells.getCellNumber() == 0){
-            helloMessage.displayWinnerMessage(game.getBluePlayer().getName());
-            ui.disableOtherButtons("");
-            ui.disableOtherButtons("R");
-            ui.disableOtherButtons("B");
+            winner = game.getBluePlayer();
+            endGame();
+            return true;
         }
         else if(blue_cells.getCellNumber()==0){
-            helloMessage.displayWinnerMessage(game.getRedPlayer().getName());
-            ui.disableOtherButtons("");
-            ui.disableOtherButtons("R");
-            ui.disableOtherButtons("B");
+            winner = game.getRedPlayer();
+            endGame();
+            return true;
         }
+        return false;
     }
 
     private void warnKillSelfCell(){
         JOptionPane.showMessageDialog(null, "Nah, you are killing your own cell",
-                                        "Trying to kill your self!", JOptionPane.DEFAULT_OPTION);
+                "Trying to kill your self!", JOptionPane.DEFAULT_OPTION);
 
     }
 
+    private void endGame(){
+        ui.updateStats(game.getGrid());
+        helloMessage.displayWinnerMessage(winner.getName());
+        ui.disableOtherButtons("");
+        ui.disableOtherButtons("R");
+        ui.disableOtherButtons("B");
+    }
+
+    protected boolean getRedTurn(){
+        return red_turn;
+    }
+
+    public boolean getActionLife(){
+        return action_life;
+    }
+
+    public boolean getActionKill(){
+        return action_kill;
+    }
 
 }
+
