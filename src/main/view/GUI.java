@@ -172,4 +172,12 @@ public class GUI implements IObeserver, UI{
         }
     }
 
+    public JLabel getGeneration_info() {
+        return generation_info;
+    }
+
+    public JLabel getCell_info() {
+        return cell_info;
+    }
+
 }
