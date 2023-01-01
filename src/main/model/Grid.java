@@ -1,5 +1,7 @@
 package main.model;
 
+import main.model.initialPattern.GridIter;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -88,32 +90,8 @@ public class Grid implements Iterable<Cell>{
     }
 
     @Override
-    public Iterator<Cell> iterator(){
-        return new Iterator<Cell>() {
-
-            private int currentRow = 0;
-            private int currentColumn = 0;
-
-            @Override
-            public boolean hasNext() {
-                if(currentRow + 1 == grid.length){
-                    return currentColumn < grid[currentRow].length;
-                }
-                return currentRow < grid.length;
-            }
-
-            @Override
-            public Cell next() {
-                if (currentColumn == grid[currentRow].length){
-                    currentColumn = 0;
-                    currentRow ++;
-                }
-                if(currentRow == grid.length - 1 && currentColumn == grid[currentRow].length){
-                    throw new NoSuchElementException();
-                }
-                return grid[currentRow][currentColumn++];
-            }
-        };
+    public Iterator<Cell> iterator() {
+        return new GridIter<>(grid);
     }
 
 }
