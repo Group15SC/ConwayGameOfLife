@@ -1,8 +1,10 @@
 package main.controller;
 
+import main.exception.KillOwnCellWarning;
 import main.model.*;
 import main.view.IMessage;
 import main.view.IUI;
+import main.exception.KillOwnCellWarning;
 
 import javax.swing.*;
 import java.awt.*;
@@ -74,7 +76,7 @@ public class Controller implements ActionListener{
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         JButton[] buttons = ui.getButtons();
 
         for(int i = 0; i < buttons.length; i++) {
@@ -84,11 +86,12 @@ public class Controller implements ActionListener{
                     ui.setRedTitle(model.getRedPlayer().getName());
                     if (buttons[i].getText().equals("")) {
                         bringToLife(buttons[i], i, "R");
-                    } else if (buttons[i].getText().equals("B")) {
-                        killAnEnemy(i);
-                        ui.disableOtherButtons("B"); /** player unable to hit other blue cells*/
                     } else {
-                        warnKillSelfCell();
+                            try {
+                                killAnEnemy(buttons[i], i, "R");
+                            } catch (KillOwnCellWarning ex) {
+                                warnKillSelfCell();
+                            }
                     }
                     if(isPlayerTurnEnd("R")) {
                         ui.updateStats(model.getGrid());
@@ -98,11 +101,12 @@ public class Controller implements ActionListener{
                     ui.setBlueTitle(model.getBluePlayer().getName());
                     if (buttons[i].getText().equals("")) {
                         bringToLife(buttons[i], i, "B");
-                    } else if (buttons[i].getText().equals("R")) {
-                        killAnEnemy(i);
-                        ui.disableOtherButtons("R"); /** player unable to hit other red cells*/
-                    } else {
-                        warnKillSelfCell();
+                    }  else {
+                            try {
+                                killAnEnemy(buttons[i], i, "B");
+                            } catch (KillOwnCellWarning ex) {
+                                warnKillSelfCell();
+                            }
                     }
                     if(isPlayerTurnEnd("B")){
                         ui.updateStats(model.getGrid());
@@ -126,9 +130,13 @@ public class Controller implements ActionListener{
         ui.disableOtherButtons("");
     }
 
-    private void killAnEnemy(int buttonId) {
-        action_kill = true;
-        model.updateCell(buttonId, CellStatus.BLANK);
+    public void killAnEnemy(JButton button, int buttonId, String actionOwnerColor) throws KillOwnCellWarning {
+        if(!button.getText().equals(actionOwnerColor)){
+            action_kill = true;
+            model.updateCell(buttonId, CellStatus.BLANK);
+        } else {
+            throw new KillOwnCellWarning();
+        }
     }
 
 

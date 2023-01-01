@@ -58,7 +58,7 @@ public class HelloMessage implements IMessage{
 
     /** convert R to red, B to blue
      *  for display purpose only */
-    public String colorConverter(String shortcut){
+    public static String colorConverter(String shortcut){
         if(Objects.equals(shortcut, "R")){
             return "red";
         }
@@ -106,7 +106,24 @@ public class HelloMessage implements IMessage{
                     "Please try again!<html>");
         }
         return name;
+    }
 
+    @Override
+    public void setRedPlayerName(String redName) {
+        if(player1_color.equals("R")){
+            player1_name = redName;
+        } else {
+            player2_name = redName;
+        }
+    }
+
+    @Override
+    public void setBluePlayerName(String blueName) {
+        if(player1_color.equals("B")){
+            player1_name = blueName;
+        } else {
+            player2_name = blueName;
+        }
     }
 
     @Override

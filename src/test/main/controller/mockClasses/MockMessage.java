@@ -33,10 +33,12 @@ public class MockMessage implements IMessage {
         return null;
     }
 
+    @Override
     public void setRedPlayerName(String redName){
         this.player1_name = redName;
     }
 
+    @Override
     public void setBluePlayerName(String blueName){
         this.player2_name = blueName;
     }

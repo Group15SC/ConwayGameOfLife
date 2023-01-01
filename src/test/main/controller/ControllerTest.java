@@ -3,6 +3,7 @@ package main.controller;
 import main.controller.mockClasses.MockGame;
 import main.controller.mockClasses.MockMessage;
 import main.controller.mockClasses.MockUI;
+import main.exception.KillOwnCellWarning;
 import main.model.Cell;
 import main.model.CellStatus;
 import main.model.Generation;
@@ -143,6 +144,17 @@ class ControllerTest {
         mockUI.displayGrid(testGame.getGame().getGrid());
 
         assertTrue(controller.getTurnEnd());
+    }
+
+    @Test
+    void redPlayerTryToKillARedCell(){
+        try{
+            controller.killAnEnemy(mockUI.getButtons()[40],40,"R");
+        } catch (KillOwnCellWarning killRed){
+            // do nothing
+        } finally {
+            assertFalse(controller.getTurnEnd());
+        }
     }
 
     @AfterEach
