@@ -16,4 +16,5 @@ public interface IUI {
     void disableOtherButtons(String color);
     void setButtonFree();
     void exitGame();
+    void setWinnerTitle(String winnerName);
 }

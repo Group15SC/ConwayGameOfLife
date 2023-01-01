@@ -198,4 +198,10 @@ public class GUI implements IObeserver, IUI {
         whole.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
+    @Override
+    public void setWinnerTitle(String winnerName) {
+        title.setText(winnerName+" wins the game!");
+        title.setForeground(new Color(0,255,0));
+    }
+
 }

@@ -1,10 +1,7 @@
 package main.model;
 
-import main.model.initialPattern.GridIter;
-
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class Grid implements Iterable<Cell>{
     final int width;

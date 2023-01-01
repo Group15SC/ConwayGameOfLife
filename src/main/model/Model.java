@@ -31,8 +31,8 @@ public class Model implements ISubject{
 
     /** set initial pattern*/
     public void setInitialPattern() {
-        InitialPattern[] patterns = {new Boat(), new Ship(), new Square()};
-//        InitialPattern[] patterns = {new Square()};
+//        InitialPattern[] patterns = {new Boat(), new Ship(), new Square()};
+        InitialPattern[] patterns = {new Square()};
         for(InitialPattern pattern: patterns){
             for(Cell cell: pattern.getRedPattern()){
                 grid.getCell(cell.getX(), cell.getY()).setCellStatus(CellStatus.RED);

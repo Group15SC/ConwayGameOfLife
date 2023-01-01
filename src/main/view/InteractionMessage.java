@@ -20,7 +20,7 @@ public class InteractionMessage implements IMessage{
 
     @Override
     public void setUpMessage(){
-        icon = new ImageIcon("logo.png");
+        icon = new ImageIcon("src/logo.png");
         Image image = icon.getImage();
         newImage = image.getScaledInstance(150,150, java.awt.Image.SCALE_SMOOTH);
         newIcon = new ImageIcon(newImage);

@@ -77,4 +77,9 @@ public class MockUI implements IUI {
     public void exitGame() {
 
     }
+
+    @Override
+    public void setWinnerTitle(String winnerName) {
+
+    }
 }

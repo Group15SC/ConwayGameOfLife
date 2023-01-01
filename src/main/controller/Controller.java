@@ -171,11 +171,13 @@ public class Controller implements ActionListener{
     private boolean checkWinner(){
         if(model.getRedCells().getCellNumber() == 0){
             winner = model.getBluePlayer();
+            ui.setWinnerTitle(winner.getName());
             endGame();
             return true;
         }
         else if(model.getBlueCells().getCellNumber()==0){
             winner = model.getRedPlayer();
+            ui.setWinnerTitle(winner.getName());
             endGame();
             return true;
         }
@@ -191,7 +193,7 @@ public class Controller implements ActionListener{
         ui.exitGame();
     }
 
-    protected boolean getRedTurn(){
+    public boolean getRedTurn(){
         return red_turn;
     }
 

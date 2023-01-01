@@ -21,7 +21,6 @@ public abstract class InitialPattern{
         this.mirroredPattern = mirror(gridWidth);
     }
 
-
     private ArrayList<Cell> generatePattern(int startX, int startY) {
         pattern = new ArrayList<>();
         for(int i=0; i<xPattern.length; i++){

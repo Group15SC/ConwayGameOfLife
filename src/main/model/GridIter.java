@@ -1,4 +1,4 @@
-package main.model.initialPattern;
+package main.model;
 
 import main.model.Cell;
 import main.model.Grid;
