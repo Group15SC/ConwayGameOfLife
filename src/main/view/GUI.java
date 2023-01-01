@@ -23,10 +23,19 @@ public class GUI implements IObeserver, IUI {
     /** component declaration */
 
 
-    public GUI(Game game) {
+    public GUI(Model model) {
+        model.registerObserver(this);
 
-        game.registerObserver(this);
+        for(int i = 0; i < buttons.length; i ++) {
+            buttons[i] = new JButton("");
+            buttons[i].setBackground(Color.WHITE);
+            buttons[i].setFont(new Font("Sans Serif", Font.BOLD, 20));
+        }
 
+    }
+
+    @Override
+    public void setUpUI(){
         whole.setTitle("Conway's Game of Life");
         whole.setSize(1100,1300);
         whole.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,16 +90,13 @@ public class GUI implements IObeserver, IUI {
         down_panel.setLayout(new GridLayout(40,40));
         down_panel.setBackground(new Color(0,0,0));
 
-        whole.add(down_panel, BorderLayout.CENTER);
-
-        for(int i = 0; i < buttons.length; i ++) {
-            buttons[i] = new JButton("");
-            buttons[i].setBackground(Color.WHITE);
-            down_panel.add(buttons[i]);
-            buttons[i].setFont(new Font("Sans Serif", Font.BOLD, 20));
+        for(JButton button: buttons){
+            down_panel.add(button);
         }
 
+        whole.add(down_panel, BorderLayout.CENTER);
     }
+
 
     /** base on the grid, update statistics */
     @Override

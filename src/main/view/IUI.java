@@ -5,7 +5,7 @@ import main.model.Grid;
 import javax.swing.*;
 
 public interface IUI {
-
+    void setUpUI();
     void displayGrid(Grid grid);
     void updateStats(Grid grid);
     void setRedTitle(String redName);

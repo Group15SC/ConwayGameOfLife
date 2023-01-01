@@ -10,11 +10,14 @@ public class MockUI implements IUI {
     private final JButton[] buttons = new JButton[1600];
 
     public MockUI(){
+    }
+
+    @Override
+    public void setUpUI() {
         for(int i=0; i<buttons.length; i++){
             buttons[i] = new JButton();
         }
     }
-
 
     @Override
     public void displayGrid(Grid grid) {

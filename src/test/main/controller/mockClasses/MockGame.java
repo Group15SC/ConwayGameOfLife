@@ -3,44 +3,44 @@ package main.controller.mockClasses;
 import main.controller.Controller;
 import main.model.Cell;
 import main.model.CellStatus;
-import main.model.Game;
-import main.model.Player;
+import main.model.Model;
 
 public class MockGame {
 
-    Game game;
+    Model model;
     MockUI ui;
     MockMessage message;
     Controller mockController;
 
     public MockGame(){
-        game = new Game();
+        model = new Model();
         ui = new MockUI();
+        ui.setUpUI();
         message = new MockMessage();
         message.setRedPlayerName("ARedPlayer");
         message.setBluePlayerName("BluePlayer");
-        mockController = new Controller(game, ui);
+        mockController = new Controller(model, ui);
         mockController.setUpController(message);
         resetPattern();
     }
 
     private void resetPattern() {
         // empty current colored cells
-        for(Cell red: game.getRedCells()){
-            game.getGrid().getCell(red.getX(), red.getY()).setCellStatus(CellStatus.BLANK);
+        for(Cell red: model.getRedCells()){
+            model.getGrid().getCell(red.getX(), red.getY()).setCellStatus(CellStatus.BLANK);
         }
-        for(Cell blue: game.getBlueCells()){
-            game.getGrid().getCell(blue.getX(), blue.getY()).setCellStatus(CellStatus.BLANK);
+        for(Cell blue: model.getBlueCells()){
+            model.getGrid().getCell(blue.getX(), blue.getY()).setCellStatus(CellStatus.BLANK);
         }
 
         // cell (0,1) - set to red, cell (39, 1) - set to blue
-        game.getGrid().getCell(0,1).setCellStatus(CellStatus.RED);
-        game.getGrid().getCell(39,1).setCellStatus(CellStatus.BLUE);
-        ui.displayGrid(game.getGrid());
+        model.getGrid().getCell(0,1).setCellStatus(CellStatus.RED);
+        model.getGrid().getCell(39,1).setCellStatus(CellStatus.BLUE);
+        ui.displayGrid(model.getGrid());
     }
 
-    public Game getGame() {
-        return game;
+    public Model getGame() {
+        return model;
     }
 
     public MockUI getUi() {
@@ -53,6 +53,10 @@ public class MockGame {
 
     public Controller getMockController() {
         return mockController;
+    }
+
+    public void addCell(int buttonId, CellStatus status){
+        model.updateCell(buttonId, status);
     }
 
 }

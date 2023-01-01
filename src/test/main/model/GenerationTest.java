@@ -44,7 +44,7 @@ class GenerationTest {
 
     @AfterEach
     void tearDown(){
-        aGen.setNumberOfGen(0);
+        Generation.setNumberOfGen(0);
     }
 
 

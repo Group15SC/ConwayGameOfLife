@@ -61,7 +61,7 @@ public class Generation {
     }
 
     // prepare for test suites
-    protected void setNumberOfGen(int i){
+    public static void setNumberOfGen(int i){
         numberOfGen = i;
     }
 

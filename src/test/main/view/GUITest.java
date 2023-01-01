@@ -8,18 +8,17 @@ import javax.swing.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GUITest {
-    Game testGame = new Game();
-    GUI testGui = new GUI(testGame);
+    Model testModel = new Model();
+    GUI testGui = new GUI(testModel);
 
     @Test
     void testUpdateStats() {
-        Grid testGrid = new Grid(40,40);
-        testGrid.getCell(0,0).setCellStatus(CellStatus.RED);
-        testGrid.getCell(0,1).setCellStatus(CellStatus.BLUE);
-        testGrid.getCell(1,1).setCellStatus(CellStatus.BLUE);
+        testModel.updateCell(0, CellStatus.RED);
+        testModel.updateCell(40, CellStatus.BLUE);
+        testModel.updateCell(41, CellStatus.BLUE);
 
-        testGui.updateStats(testGrid);
-        String expect_cell = "   Blue Cells: 2  Red Cells: 1";
+        testGui.updateStats(testModel.getGrid());
+        String expect_cell = "   Blue Cells: 17  Red Cells: 16";
         assertEquals(expect_cell, testGui.getCell_info().getText());
 
         String expect_generation = "Generation:  0   ";
@@ -28,11 +27,8 @@ class GUITest {
 
     @Test
     void testDisableOtherButtons() {
-        Grid testGrid = new Grid(40,40);
-        testGrid.getCell(0,0).setCellStatus(CellStatus.BLUE);
-        testGrid.getCell(1,0).setCellStatus(CellStatus.BLUE);
-        testGrid.getCell(2,0).setCellStatus(CellStatus.BLUE);
-        testGrid.getCell(3,0).setCellStatus(CellStatus.BLUE);
+        testModel.updateCell(0,CellStatus.BLUE);
+        testModel.updateCell(1,CellStatus.BLUE);
         for(JButton button: testGui.getButtons()){
             if(button.getText().equals("B")) {
                 assertTrue(button.isEnabled());
@@ -70,13 +66,13 @@ class GUITest {
 
     @Test
     void testDisplayGrid() {
-        Grid testGrid = new Grid(40,40);
-        testGrid.getCell(0,0).setCellStatus(CellStatus.RED);
-        testGrid.getCell(1,0).setCellStatus(CellStatus.BLUE);
-        testGui.displayGrid(testGrid);
+        testModel.updateCell(0, CellStatus.RED);
+        testModel.updateCell(1, CellStatus.BLUE);
+        testGui.displayGrid(testModel.getGrid());
         String actual0 = testGui.getButtons()[0].getText();
         String actual1 = testGui.getButtons()[1].getText();
         assertEquals("R", actual0);
         assertEquals("B", actual1);
     }
+
 }

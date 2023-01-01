@@ -8,7 +8,7 @@ import main.view.IObeserver;
 
 import java.util.ArrayList;
 
-public class Game implements ISubject{
+public class Model implements ISubject{
 
     /** take care of data store and computation - model*/
 
@@ -20,7 +20,7 @@ public class Game implements ISubject{
 
     private Generation generation;
 
-    public Game(){
+    public Model(){
 
         setInitialPattern();
 
@@ -32,6 +32,7 @@ public class Game implements ISubject{
     /** set initial pattern*/
     public void setInitialPattern() {
         InitialPattern[] patterns = {new Boat(), new Ship(), new Square()};
+//        InitialPattern[] patterns = {new Square()};
         for(InitialPattern pattern: patterns){
             for(Cell cell: pattern.getRedPattern()){
                 grid.getCell(cell.getX(), cell.getY()).setCellStatus(CellStatus.RED);
