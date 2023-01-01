@@ -59,7 +59,7 @@ public class InteractionMessage implements IMessage{
         panel.add(logo);
         panel.add(label,BorderLayout.EAST);
         logo.setPreferredSize(new Dimension(150,200));
-        label.setPreferredSize(new Dimension(400,200));
+        label.setPreferredSize(new Dimension(400,300));
         JOptionPane.showMessageDialog(null, panel, "Conway's Game of Life", JOptionPane.DEFAULT_OPTION);
     }
 
@@ -105,7 +105,7 @@ public class InteractionMessage implements IMessage{
             color = getInput("<html>Please choose a color between red and blue to represent your side. <br/>"+
                     "Enter R for red, enter B for blue.<html>");
         }
-        while(!"[RB]".contains(color)){
+        while(!color.equals("R") && !color.equals("B")){
             color = getInput("<html>Sorry, you can only choose between red and blue :(<br/>" +
                     "Please enter R for red and B for blue.<html>");
         }
