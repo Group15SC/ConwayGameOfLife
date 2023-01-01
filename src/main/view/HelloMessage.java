@@ -94,8 +94,7 @@ public class HelloMessage implements IMessage{
     @Override
     /** get player i's name, handle invalid input*/
     public String handleName(int playerId) {
-        String name = getInput("<html>Welcome to Conway's Game of Life!<br/>This is a 2 player version game, " +
-                "so please enter the names of two players one by one.<br/>" +
+        String name = getInput("<html>Enter your name below, " +
                 "Please be aware that we only accept names start with character :)<html>");
 
         while(name.length() < 1){

@@ -32,12 +32,11 @@ public class Controller implements ActionListener{
     }
 
     public void setUpController(IMessage helloMessage){
+
         this.helloMessage = helloMessage;
         ui.displayGrid(new Grid(40,40));
-
         helloMessage.setUpMessage();
 
-//        game.setInitialPattern();
         ui.displayGrid(game.getGrid());
 
         String redName = helloMessage.getRedPlayerName();
@@ -163,14 +162,12 @@ public class Controller implements ActionListener{
      * should be inserted after each turn
      */
     private boolean checkWinner(){
-        CellCollection red_cells = new CellCollection(game.getGrid(), CellStatus.RED);
-        CellCollection blue_cells = new CellCollection(game.getGrid(), CellStatus.BLUE);
-        if(red_cells.getCellNumber() == 0){
+        if(game.getRedCells().getCellNumber() == 0){
             winner = game.getBluePlayer();
             endGame();
             return true;
         }
-        else if(blue_cells.getCellNumber()==0){
+        else if(game.getBlueCells().getCellNumber()==0){
             winner = game.getRedPlayer();
             endGame();
             return true;
@@ -202,6 +199,10 @@ public class Controller implements ActionListener{
 
     public boolean getActionKill(){
         return action_kill;
+    }
+
+    public Player getWinner(){
+        return winner;
     }
 
 }

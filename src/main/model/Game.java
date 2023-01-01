@@ -16,8 +16,7 @@ public class Game implements ISubject{
 
 
     private Grid grid = new Grid(40, 40);
-    private Player player_red, player_blue;
-
+    private final Player player_red, player_blue;
 
     private Generation generation;
 
@@ -32,8 +31,7 @@ public class Game implements ISubject{
 
     /** set initial pattern*/
     public void setInitialPattern() {
-//        InitialPattern[] patterns = {new Boat(), new Ship(), new Square()};
-        InitialPattern[] patterns = {new Square()};
+        InitialPattern[] patterns = {new Boat(), new Ship(), new Square()};
         for(InitialPattern pattern: patterns){
             for(Cell cell: pattern.getRedPattern()){
                 grid.getCell(cell.getX(), cell.getY()).setCellStatus(CellStatus.RED);
@@ -69,6 +67,14 @@ public class Game implements ISubject{
     public void evolve(){
         generation.aGeneration();
         notifyObserver();
+    }
+
+    public CellCollection getRedCells(){
+        return new CellCollection(grid, CellStatus.RED);
+    }
+
+    public CellCollection getBlueCells(){
+        return new CellCollection(grid, CellStatus.BLUE);
     }
 
     public void updateCell(int buttonId, CellStatus status){

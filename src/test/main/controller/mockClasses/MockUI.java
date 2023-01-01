@@ -20,7 +20,7 @@ public class MockUI implements IUI {
     public void displayGrid(Grid grid) {
         for(int i=0; i<grid.getWidth();i++){
             for(int j=0; j<grid.getHeight();j++){
-                JButton aButton = buttons[5*j+i];
+                JButton aButton = buttons[40*j+i];
                 switch(grid.getCell(i, j).getCellStatus()){
                     case RED -> aButton.setText("R");
                     case BLUE -> aButton.setText("B");
