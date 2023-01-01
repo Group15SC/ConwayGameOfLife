@@ -15,5 +15,5 @@ public interface IUI {
     JLabel getCell_info();
     void disableOtherButtons(String color);
     void setButtonFree();
-
+    void exitGame();
 }

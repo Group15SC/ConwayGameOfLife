@@ -193,5 +193,9 @@ public class GUI implements IObeserver, IUI {
     public JLabel getCell_info() {
         return cell_info;
     }
+    @Override
+    public void exitGame(){
+        whole.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    }
 
 }

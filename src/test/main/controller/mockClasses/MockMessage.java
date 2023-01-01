@@ -68,5 +68,10 @@ public class MockMessage implements IMessage {
 
     }
 
+    @Override
+    public void warnKillSelfCell() {
+
+    }
+
 
 }

@@ -8,11 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class ModelTest {
 
     Model model = new Model();
-//    @BeforeAll
-//    void setUp(){
-//        game.setPlayerName("testPlayerA", "R");
-//        game.setPlayerName("testPlayerB", "B");
-//    }
 
 
     @Test
@@ -28,7 +23,7 @@ class ModelTest {
     }
 
     @Test
-    void testInitialPattern() {
+    void testInitialSquare() {
         // Square RED: (14,19), (15,19), (14,20), (15,20)
         assertEquals(CellStatus.RED, model.getGrid().getCell(14, 19).getCellStatus());
         assertEquals(CellStatus.RED, model.getGrid().getCell(15, 19).getCellStatus());

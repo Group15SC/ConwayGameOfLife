@@ -72,4 +72,9 @@ public class MockUI implements IUI {
     public void setButtonFree() {
 
     }
+
+    @Override
+    public void exitGame() {
+
+    }
 }

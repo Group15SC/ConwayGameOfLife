@@ -14,4 +14,6 @@ public interface IMessage {
     String getBluePlayerName();
     String handleSameName(String name);
     void displayWinnerMessage(String winnerName);
+
+    void warnKillSelfCell();
 }

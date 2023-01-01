@@ -90,7 +90,7 @@ public class Controller implements ActionListener{
                             try {
                                 killAnEnemy(buttons[i], i, "R");
                             } catch (KillOwnCellWarning ex) {
-                                warnKillSelfCell();
+                                helloMessage.warnKillSelfCell();
                             }
                     }
                     if(isPlayerTurnEnd("R")) {
@@ -105,7 +105,7 @@ public class Controller implements ActionListener{
                             try {
                                 killAnEnemy(buttons[i], i, "B");
                             } catch (KillOwnCellWarning ex) {
-                                warnKillSelfCell();
+                                helloMessage.warnKillSelfCell();
                             }
                     }
                     if(isPlayerTurnEnd("B")){
@@ -182,18 +182,13 @@ public class Controller implements ActionListener{
         return false;
     }
 
-    private void warnKillSelfCell(){
-        JOptionPane.showMessageDialog(null, "Nah, you are killing your own cell",
-                "Trying to kill your self!", JOptionPane.DEFAULT_OPTION);
-
-    }
-
     private void endGame(){
         ui.updateStats(model.getGrid());
         helloMessage.displayWinnerMessage(winner.getName());
         ui.disableOtherButtons("");
         ui.disableOtherButtons("R");
         ui.disableOtherButtons("B");
+        ui.exitGame();
     }
 
     protected boolean getRedTurn(){
