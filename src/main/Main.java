@@ -12,11 +12,6 @@ public class Main {
         InteractionMessage message = new InteractionMessage();
         Controller controller = new Controller(model, gui);
         controller.setUpController(message);
-//        CellCollection reds = new CellCollection(game.getGrid(), CellStatus.RED);
-//        CellCollection blues = new CellCollection(game.getGrid(), CellStatus.BLUE);
-//        for(Cell red: reds){
-//            System.out.println(red.getX()+","+red.getY());
-//        }
 
     }
 }

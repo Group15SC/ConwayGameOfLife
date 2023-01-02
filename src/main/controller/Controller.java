@@ -198,6 +198,8 @@ public class Controller implements ActionListener{
                     ui.setButtonFree();
                 }
             }
+        } else {
+            turn_end = false;
         }
         return turn_end;
     }

@@ -7,15 +7,13 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class GridIter<Cell> implements Iterator<Cell> {
-
-
-
     private int currentRow = 0;
     private int currentColumn = 0;
     private Cell[][] grid;
 
     /**
-     * Construct an iterator for the grid, so the cells could be traverse with the same order of the buttons
+     * Construct an iterator for the grid,
+     * so the cells could be traverse with the same order of the buttons
      */
     public GridIter(Cell[][] grid){
         this.grid = grid;
@@ -40,5 +38,4 @@ public class GridIter<Cell> implements Iterator<Cell> {
         }
         return grid[currentRow][currentColumn++];
     }
-
 }
