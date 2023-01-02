@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 public class Controller implements ActionListener{
 
 
-    /** abstraction of the functionality necessary to change the data stored in model
+    /* abstraction of the functionality necessary to change the data stored in model
      *  build data-view connection */
 
     private final Model model;
@@ -24,6 +24,11 @@ public class Controller implements ActionListener{
     private IMessage helloMessage;
     private Player winner;
 
+    /**
+     * construct the controller for model and ui
+     * @param model: game model
+     * @param ui: ui
+     */
     public Controller(Model model, IUI ui){
         this.model = model;
         this.ui = ui;
@@ -33,6 +38,10 @@ public class Controller implements ActionListener{
         }
     }
 
+    /**
+     * set up the controller
+     * @param helloMessage: the interaction message
+     */
     public void setUpController(IMessage helloMessage){
         this.helloMessage = helloMessage;
         ui.displayGrid(new Grid(40,40));
@@ -49,7 +58,11 @@ public class Controller implements ActionListener{
         ui.updateStats(model.getGrid());
     }
 
-    /** check which who owns the first turn*/
+    /**
+     * decide which who owns the first turn by name alphabetically
+     * @param redName: red player's name
+     * @param blueName: blue player's name
+     */
     private void decideFirstTurn(String redName, String blueName){
 
         setTimeLag(800);
@@ -66,7 +79,10 @@ public class Controller implements ActionListener{
 
     }
 
-
+    /**
+     * set some time lag to change the title of game
+     * @param lag: desired time lag
+     */
     private void setTimeLag(int lag){
         try{
             Thread.sleep(lag);
@@ -75,6 +91,13 @@ public class Controller implements ActionListener{
         }
     }
 
+    /**
+     * handle the user input(click), control the logic of each turn
+     * in each player's turn:
+     * if he/she clicked a colored button, check if it belongs to enemy. If yes, kill it. If not, give warning
+     * if he/she clicked an empty button, bring the cell to life
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e){
         JButton[] buttons = ui.getButtons();
@@ -116,7 +139,12 @@ public class Controller implements ActionListener{
         }
     }
 
-
+    /**
+     * bring an enemy cell back to life
+     * @param button: the hit button
+     * @param buttonId: the index of the hit button
+     * @param playerColor: player's color (to decide what color should the cell be assigned)
+     */
     private void bringToLife(JButton button, int buttonId, String playerColor) {
         action_life = true;
         button.setText(playerColor);
@@ -130,6 +158,13 @@ public class Controller implements ActionListener{
         ui.disableOtherButtons("");
     }
 
+    /**
+     * kill a chosen enemy cell
+     * @param button: the hit button
+     * @param buttonId: the index of the hit button
+     * @param actionOwnerColor: who hit the button
+     * @throws KillOwnCellWarning: if the player hit his/her own button, throw exception
+     */
     public void killAnEnemy(JButton button, int buttonId, String actionOwnerColor) throws KillOwnCellWarning {
         if(!button.getText().equals(actionOwnerColor)){
             action_kill = true;
@@ -139,7 +174,11 @@ public class Controller implements ActionListener{
         }
     }
 
-
+    /**
+     * check if the player end his/her turn
+     * @param color: the color of the player
+     * @return boolean: true: the player has kill an enemy and bring a dead cell to life; false: not done all yet
+     */
     private boolean isPlayerTurnEnd(String color){
         if(action_life && action_kill) {
             turn_end = true;
@@ -163,10 +202,9 @@ public class Controller implements ActionListener{
         return turn_end;
     }
 
-
     /**
      * check if any player has win the game
-     * should be inserted after each turn
+     * @return boolean: true: a player wins; false: game continue, no winner
      */
     private boolean checkWinner(){
         if(model.getRedCells().getCellNumber() == 0){
@@ -184,6 +222,9 @@ public class Controller implements ActionListener{
         return false;
     }
 
+    /**
+     * a player has won the game, update the statistics and make sure no button can be clicked anymore
+     */
     private void endGame(){
         ui.updateStats(model.getGrid());
         helloMessage.displayWinnerMessage(winner.getName());
@@ -193,20 +234,43 @@ public class Controller implements ActionListener{
         ui.exitGame();
     }
 
+    /**
+     * @return boolean:
+     * true: red player's turn;
+     * false: blue player's turn
+     */
     public boolean getRedTurn(){
         return red_turn;
     }
 
+    /**
+     * @return boolean:
+     * true: has brought an empty cell to life;
+     * false: no empty cell has been brought to life
+     */
     public boolean getActionLife(){
         return action_life;
     }
 
+    /**
+     * @return boolean:
+     * true: has kill an enemy cell;
+     * false: no enemy cell has been killed successfully
+     */
     public boolean getActionKill(){
         return action_kill;
     }
 
+    /**
+     * @return boolean:
+     * true: a player has ends his/her turn
+     * false: a turn has not been finished
+     */
     public boolean getTurnEnd() { return turn_end; }
 
+    /**
+     * @return Player: the winner
+     */
     public Player getWinner(){
         return winner;
     }

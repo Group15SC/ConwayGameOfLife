@@ -7,9 +7,8 @@ import java.awt.*;
 
 public class GUI implements IObeserver, IUI {
 
-    /** take care of the view */
 
-    /** gui var */
+    // component declaration
     private JFrame whole = new JFrame();
     private JPanel title_panel = new JPanel();
     private JPanel stats_panel = new JPanel();
@@ -20,9 +19,11 @@ public class GUI implements IObeserver, IUI {
     private JPanel down_panel = new JPanel();
     private final JButton[] buttons = new JButton[1600];
 
-    /** component declaration */
 
-
+    /**
+     * construct a gui frame
+     * @param model: a game model (for the purpose of registering observer)
+     */
     public GUI(Model model) {
         model.registerObserver(this);
 
@@ -34,6 +35,9 @@ public class GUI implements IObeserver, IUI {
 
     }
 
+    /**
+     * set up the GUI
+     */
     @Override
     public void setUpUI(){
         whole.setTitle("Conway's Game of Life");
@@ -98,7 +102,10 @@ public class GUI implements IObeserver, IUI {
     }
 
 
-    /** base on the grid, update statistics */
+    /**
+     * base on the grid, update statistics
+     * @param grid: the existing grid
+     */
     @Override
     public void updateStats(Grid grid) {
         CellCollection blueCells = new CellCollection(grid, CellStatus.BLUE);
@@ -109,9 +116,10 @@ public class GUI implements IObeserver, IUI {
         cell_info.setText("   Blue Cells: " + blueCells.getCellNumber() + "  " + "Red Cells: " + redCells.getCellNumber());
     }
 
-
-
-    /** make other button unable to choose (get rid of duplicate choices)*/
+    /**
+     * make other button unable to choose (get rid of duplicate choices)
+     * @param color: the color to disable
+     */
     @Override
     public void disableOtherButtons(String color){
 
@@ -123,7 +131,9 @@ public class GUI implements IObeserver, IUI {
 
     }
 
-    /** make buttons free to choose again */
+    /**
+     * make buttons free to choose again
+     */
     @Override
     public void setButtonFree(){
 
@@ -133,29 +143,47 @@ public class GUI implements IObeserver, IUI {
 
     }
 
-    /** set title to Red player*/
+    /**
+     * set title to inform it's red side's turn
+     * @param redName: red player's name
+     */
     @Override
     public void setRedTitle(String redName){
         title.setText(redName+"'s Turn");
         title.setForeground(new Color(255, 0,0));
     }
 
+    /**
+     * set title to inform it's blue side's turn
+     * @param blueName: blue player's name
+     */
     @Override
     public void setBlueTitle(String blueName){
         title.setText(blueName+"'s Turn");
         title.setForeground(new Color(0,0,255));
     }
 
+    /**
+     * @return JButton[]: list of all buttons
+     */
     @Override
     public JButton[] getButtons(){
         return buttons;
     }
 
+    /**
+     * functionality of observer
+     * @param grid: current grid
+     */
     @Override
     public void updateGrid(Grid grid) {
         displayGrid(grid);
     }
 
+    /**
+     * display the current grid based on it's CellStatus (red->"R", blue->"R", blank->"")
+     * @param grid: current grid
+     */
     @Override
     public void displayGrid(Grid grid) {
 
@@ -184,20 +212,34 @@ public class GUI implements IObeserver, IUI {
         }
     }
 
+    /**
+     * @return JLabel: to display how many generations have been made
+     */
     @Override
     public JLabel getGeneration_info() {
         return generation_info;
     }
 
+    /**
+     * @return JLabel: to display how many cells are alive for both sides
+     */
     @Override
     public JLabel getCell_info() {
         return cell_info;
     }
+
+    /**
+     * exit the frame
+     */
     @Override
     public void exitGame(){
         whole.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
+    /**
+     * display the winner message on title
+     * @param winnerName: winner's game
+     */
     @Override
     public void setWinnerTitle(String winnerName) {
         title.setText(winnerName+" wins the game!");

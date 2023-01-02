@@ -8,16 +8,34 @@ public class Grid implements Iterable<Cell>{
     final int height;
     Cell [][] grid;
 
+    /**
+     * construct a grid filled by cells with fixed size
+     * @param width: the width of the grid
+     * @param height: the height of the grid
+     */
     public Grid(int width, int height){
         this.grid = fillGrid(width, height);
         this.width = width;
         this.height = height;
     }
+
+    /**
+     * find a specific cell on grid
+     * @param x: x coordinate of the wanted cell
+     * @param y: y coordinate of the wanted cell
+     * @return Cell
+     */
     public Cell getCell(int x, int y){
         return grid[y][x];
     }
 
 
+    /**
+     * set up the grid with blank cells
+     * @param width: the size of the grid
+     * @param height: the height of the grid
+     * @return Cell[][]: the grid of blank cells
+     */
     public Cell[][] fillGrid(int width, int height){
         grid = new Cell[height][width];
         for (int y = 0; y < height; y ++){
@@ -38,9 +56,11 @@ public class Grid implements Iterable<Cell>{
     }
 
 
-    /** get the 8 neighbours of a cell
-     *  input: center cell
-     *  output: an array of neighbour cells*/
+    /**
+     * get the neighbours of a specific cell, number differs, e.g. left corner cell only has 3 neighbours
+     * @param center: the cell to find neighbour
+     * @return ArrayList<Cell>: the neighbours of the center cell.
+     */
     public ArrayList<Cell> findNeighbour(Cell center){
         ArrayList<Cell> neighbour = new ArrayList<>();
         int x = center.getX();
@@ -58,7 +78,11 @@ public class Grid implements Iterable<Cell>{
         return neighbour;
     }
 
-    /** count the alive neighbours */
+    /**
+     * count the alive neighbours of a center cell
+     * @param neighbour: the neighbours of the center cell
+     * @return int: number of alive cells among the neighbours
+     */
     public int getAliveNeighbours(ArrayList<Cell> neighbour){
         int aliveCount = 0;
         for(Cell cell:neighbour){
@@ -69,6 +93,11 @@ public class Grid implements Iterable<Cell>{
         return aliveCount;
     }
 
+    /**
+     * get the majority color of neighbour cells of a center cell
+     * @param neighbour: the neighbour cells of the center
+     * @return CellStatus: the majority color (either RED or BLUE)
+     */
     public CellStatus getMajorityColor(ArrayList<Cell> neighbour){
         int red = 0;
         int blue = 0;

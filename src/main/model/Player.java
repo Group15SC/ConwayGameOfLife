@@ -17,6 +17,11 @@ public class Player {
         this.name = name;
     }
 
+    /**
+     * convert a string of color to its corresponding cell status
+     * @param color: either "R" or "B"
+     * @return CellStatus: "R"->red, "B"->blue
+     */
     private CellStatus getStatus(String color){
         switch (color){
             case "R" -> {

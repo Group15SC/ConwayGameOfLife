@@ -10,7 +10,9 @@ import java.util.ArrayList;
 
 public class Model implements ISubject{
 
-    /** take care of data store and computation - model*/
+    /**
+     * build up the game model, take care of the data store and computation
+     */
 
     ArrayList<IObeserver> observers = new ArrayList<>();
 
@@ -29,7 +31,9 @@ public class Model implements ISubject{
         player_blue = new Player("", "B");
     }
 
-    /** set initial pattern*/
+    /**
+     * set up the initial pattern and update the cells to grid
+     */
     public void setInitialPattern() {
         InitialPattern[] patterns = {new Boat(), new Ship(), new Square()};
 //        InitialPattern[] patterns = {new Square()};
@@ -43,6 +47,10 @@ public class Model implements ISubject{
         }
     }
 
+    /**
+     * @param name: name of the player to be set
+     * @param color: color side of the player to be set
+     */
     public void setPlayerName(String name, String color){
         if(color.equals("R")){
             player_red.setName(name);
@@ -65,6 +73,9 @@ public class Model implements ISubject{
         return player_blue;
     }
 
+    /**
+     * make a generation and notify observer to update
+     */
     public void evolve(){
         generation.aGeneration();
         notifyObserver();
@@ -78,6 +89,11 @@ public class Model implements ISubject{
         return new CellCollection(grid, CellStatus.BLUE);
     }
 
+    /**
+     * update the grid status based on current buttons
+     * @param buttonId: the index of the button
+     * @param status: the cell status to be set
+     */
     public void updateCell(int buttonId, CellStatus status){
         getGrid().getCell(buttonId % 40, buttonId / 40).setCellStatus(status);
         notifyObserver();

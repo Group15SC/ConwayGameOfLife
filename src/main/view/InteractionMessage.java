@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class InteractionMessage implements IMessage{
 
-    /** we don't use class player here, trying to avoid get class from model package involved
+    /* we don't use class player here, trying to avoid get class from model package involved
      *  to keep the independence */
     private String player1_name;
     private String player2_name;
@@ -15,9 +15,14 @@ public class InteractionMessage implements IMessage{
     private ImageIcon icon;
     private Image newImage;
     private ImageIcon newIcon;
+
     public InteractionMessage(){
     }
 
+
+    /**
+     * set up the welcome messages and some simply instructions
+     */
     @Override
     public void setUpMessage(){
         icon = new ImageIcon("src/logo.png");
@@ -49,7 +54,10 @@ public class InteractionMessage implements IMessage{
                     "Game starts now! Have fun! :)<html>");
     }
 
-
+    /**
+     * set up the display of input windows
+     * @param textMessage: info to show on the window
+     */
     private void showMessage(String textMessage) {
         JPanel panel = new JPanel();
         JLabel logo = new JLabel(newIcon);
@@ -63,8 +71,11 @@ public class InteractionMessage implements IMessage{
         JOptionPane.showMessageDialog(null, panel, "Conway's Game of Life", JOptionPane.DEFAULT_OPTION);
     }
 
-    /** convert R to red, B to blue
-     *  for display purpose only */
+    /**
+     * convert R to red, B to blue, for display purpose only
+     * @param shortcut: R or B
+     * @return String: red or blue
+     */
     public static String colorConverter(String shortcut){
         if(Objects.equals(shortcut, "R")){
             return "red";
@@ -75,7 +86,11 @@ public class InteractionMessage implements IMessage{
         return null;
     }
 
-    /** get player i's name, handle invalid input*/
+    /**
+     * get player i's name, handle invalid input
+     * @param playerId: 1st/2nd player
+     * @return String: the valid name of the player
+     */
     @Override
     public String handleName(int playerId) {
         String playerName = getInput("<html>Player "+ playerId +", please enter your name below. " +
@@ -94,8 +109,9 @@ public class InteractionMessage implements IMessage{
         return playerName;
     }
 
-
-    /** get player's chosen color, handle invalid input*/
+    /**
+     * get player's chosen color, handle invalid input
+     */
     @Override
     public void handleColor() {
         String color = getInput("<html>Hello " + player1_name + "!<br/>" +
@@ -116,8 +132,10 @@ public class InteractionMessage implements IMessage{
     }
 
 
-
-
+    /**
+     * set the name of the red side player
+     * @param redName: name of player(String)
+     */
     @Override
     public void setRedPlayerName(String redName) {
         switch (player1_color) {
@@ -126,6 +144,10 @@ public class InteractionMessage implements IMessage{
         }
     }
 
+    /**
+     * set the name of the red side player
+     * @param blueName: name of player(String)
+     */
     @Override
     public void setBluePlayerName(String blueName) {
         switch (player1_color) {
@@ -134,6 +156,11 @@ public class InteractionMessage implements IMessage{
         }
     }
 
+    /**
+     * ask for the input with JOption
+     * @param text: message to show on the window
+     * @return String: pass the user input
+     */
     @Override
     public String getInput(String text) {
         JPanel panel = new JPanel();
@@ -154,7 +181,9 @@ public class InteractionMessage implements IMessage{
         return choice;
     }
 
-    /** get player's name of red side*/
+    /**
+     * @return String: player's name of red side
+     */
     @Override
     public String getRedPlayerName(){
 
@@ -165,7 +194,9 @@ public class InteractionMessage implements IMessage{
 
     }
 
-    /** get player's name of blue side*/
+    /**
+     * @return String: blue player's name
+     */
     @Override
     public String getBluePlayerName(){
 
@@ -176,6 +207,11 @@ public class InteractionMessage implements IMessage{
 
     }
 
+    /**
+     * handle the case if the two player input the same name (then can't decide the order)
+     * @param player2Name: name of the second player's input
+     * @return String: the name of the second player, different from the existing one
+     */
     @Override
     public String handleSameName(String player2Name){
         while(player2Name.equals(player1_name)){
@@ -184,10 +220,19 @@ public class InteractionMessage implements IMessage{
         }
         return player2Name;
     }
+
+    /**
+     * display the winner info with pop up
+     * @param winnerName: winner's name
+     */
     @Override
     public void displayWinnerMessage(String winnerName) {
         showMessage("<html>Congratulations! " + winnerName + " wins the Game!<html>");
     }
+
+    /**
+     * set warning message for player's invalid action
+     */
     @Override
     public void warnKillSelfCell(){
         JOptionPane.showMessageDialog(null, "Nah, you are killing your own cell",

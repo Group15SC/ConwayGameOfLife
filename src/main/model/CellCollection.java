@@ -6,11 +6,17 @@ import java.util.Objects;
 
 public class CellCollection implements Iterable<Cell>{
 
-    /** to store all the cells of a player*/
     private final ArrayList<Cell> collection;
     public CellCollection(Grid grid, CellStatus color) {
         this.collection = getCellCollection(grid, color);
     }
+
+    /**
+     * find all cells of a specific status/color on a given grid and store in an array list
+     * @param grid: given grid
+     * @param color: wanted cell color
+     * @return ArrayList<Cell>: required cells on the grid
+     */
     public ArrayList<Cell> getCellCollection(Grid grid, CellStatus color){
         ArrayList<Cell> collection = new ArrayList<>();
         for(Cell cell: grid){
@@ -24,10 +30,6 @@ public class CellCollection implements Iterable<Cell>{
     public int getCellNumber(){
         return this.collection.size();
     }
-
-//    public void addCell(Model.Cell cell){
-//        collection.add(cell);
-//    }
 
     @Override
     public Iterator<Cell> iterator() {
